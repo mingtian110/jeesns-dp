@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<description>
+		存放Spring Dubbo相关配置
+	</description>
+	<dubbo:application name="cubc-pingan" owner="cubc-pingan" />
+	<dubbo:registry protocol="zookeeper" address="${cubcpingan.dubbo.registry.address}" file="/opt/dubbo-cache/pingan.cache"/>
+	<dubbo:protocol name="dubbo" port="${cubcpingan.dubbo.protocol.port}"/>
+	<dubbo:consumer timeout="5000" check="false"/>
+	<dubbo:provider timeout="5000" delay="-1" retries="0"/>
+	<import resource="dubbo-provider.xml"/>
+	<import resource="dubbo-consumer.xml"/>
+</beans>
