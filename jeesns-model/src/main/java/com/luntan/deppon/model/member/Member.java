@@ -110,6 +110,46 @@ public class Member implements Serializable {
 	//粉丝数
 	private Integer fans;
 
+	//部门名称
+	private String deptName;
+	//部门编码
+	private String deptCode;
+	private String positions;
+
+	private String code;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getPositions() {
+		return positions;
+	}
+
+	public void setPositions(String positions) {
+		this.positions = positions;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public String getDeptCode() {
+		return deptCode;
+	}
+
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
+	}
+
 	//私信列表
 	private List<Message> messages;
 

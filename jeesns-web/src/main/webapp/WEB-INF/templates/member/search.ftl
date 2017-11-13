@@ -58,10 +58,12 @@
                                             <thead>
                                             <tr>
                                                 <th>用户名</th>
-                                                <th>邮箱</th>
+                                                <th>工号</th>
                                                 <th>手机号码</th>
                                                 <th>性别</th>
                                                 <th>部门</th>
+                                                <th>部门编码</th>
+                                                <th>职位</th>
                                                 <th>描述</th>
                                                 <th>微信号</th>
                                             </tr>
@@ -76,10 +78,12 @@
                                                     </div>
                                                     <strong><a href="/u/${member.id}" target="_blank">${(member.name || member.email)?string(member.name,member.email)}</a></strong>
                                                 </td>
-                                                <td>${member.email}</td>
+                                                <td>${member.code}</td>
                                                 <td>${member.phone}</td>
                                                 <td>${member.sex}</td>
-                                                <td>${member.address}</td>
+                                                <td>${member.deptName}</td>
+                                                <td>${member.deptCode}</td>
+                                                <td>${member.positions}</td>
                                                 <td>${member.introduce}</td>
                                                 <td>${member.wechat}</td>
                                             </tr>

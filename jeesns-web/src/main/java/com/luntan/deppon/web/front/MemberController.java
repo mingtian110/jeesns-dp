@@ -125,6 +125,7 @@ public class MemberController extends BaseController {
         String deptName=split[4];
         String phone=split[5];
         String position=split[6];
+        String deptCode=split[7];
         Map<String, String> config = configService.getConfigToMap();
         if ("0".equals(config.get(ConfigUtil.MEMBER_REGISTER_OPEN))) {
             return new ResponseModel(-1, "注册功能已关闭");
@@ -143,7 +144,10 @@ public class MemberController extends BaseController {
         member.setEmail(afterEmail);
         member.setIntroduce(code);
         member.setPhone(phone);
-        member.setAddress(position);
+        member.setPositions(position);
+        member.setDeptCode(deptCode);
+        member.setDeptName(deptName);
+        member.setCode(code);
         /**
          * 查询是否已存在
          */

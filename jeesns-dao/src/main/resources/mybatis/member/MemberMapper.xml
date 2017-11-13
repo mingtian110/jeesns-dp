@@ -2,43 +2,49 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.luntan.deppon.dao.member.IMemberDao">
     <resultMap id="RemberResult" type="Member">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="group_id" jdbcType="INTEGER" property="groupId" />
-        <result column="name" jdbcType="VARCHAR" property="name" />
-        <result column="email" jdbcType="VARCHAR" property="email" />
-        <result column="phone" jdbcType="VARCHAR" property="phone" />
-        <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="sex" jdbcType="VARCHAR" property="sex" />
-        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="regip" jdbcType="VARCHAR" property="regip" />
-        <result column="login_count" jdbcType="INTEGER" property="loginCount" />
-        <result column="curr_login_time" jdbcType="TIMESTAMP" property="currLoginTime" />
-        <result column="curr_login_ip" jdbcType="VARCHAR" property="currLoginIp" />
-        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
-        <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-        <result column="money" jdbcType="DOUBLE" property="money" />
-        <result column="score" jdbcType="INTEGER" property="score" />
-        <result column="is_active" jdbcType="INTEGER" property="isActive" />
-        <result column="status" jdbcType="INTEGER" property="status" />
-        <result column="birthday" jdbcType="VARCHAR" property="birthday" />
-        <result column="addprovince" jdbcType="VARCHAR" property="addprovince" />
-        <result column="addcity" jdbcType="VARCHAR" property="addcity" />
-        <result column="addarea" jdbcType="VARCHAR" property="addarea" />
-        <result column="address" jdbcType="VARCHAR" property="address" />
-        <result column="qq" jdbcType="VARCHAR" property="qq" />
-        <result column="wechat" jdbcType="VARCHAR" property="wechat" />
-        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
-        <result column="contact_email" jdbcType="VARCHAR" property="contactEmail" />
-        <result column="website" jdbcType="VARCHAR" property="website" />
-        <result column="introduce" jdbcType="VARCHAR" property="introduce" />
-        <result column="is_admin" jdbcType="INTEGER" property="isAdmin" />
-        <result column="follows" jdbcType="INTEGER" property="follows" />
-        <result column="fans" jdbcType="INTEGER" property="fans" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="group_id" jdbcType="INTEGER" property="groupId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="regip" jdbcType="VARCHAR" property="regip"/>
+        <result column="login_count" jdbcType="INTEGER" property="loginCount"/>
+        <result column="curr_login_time" jdbcType="TIMESTAMP" property="currLoginTime"/>
+        <result column="curr_login_ip" jdbcType="VARCHAR" property="currLoginIp"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="money" jdbcType="DOUBLE" property="money"/>
+        <result column="score" jdbcType="INTEGER" property="score"/>
+        <result column="is_active" jdbcType="INTEGER" property="isActive"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="birthday" jdbcType="VARCHAR" property="birthday"/>
+        <result column="addprovince" jdbcType="VARCHAR" property="addprovince"/>
+        <result column="addcity" jdbcType="VARCHAR" property="addcity"/>
+        <result column="addarea" jdbcType="VARCHAR" property="addarea"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="qq" jdbcType="VARCHAR" property="qq"/>
+        <result column="wechat" jdbcType="VARCHAR" property="wechat"/>
+        <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="contact_email" jdbcType="VARCHAR" property="contactEmail"/>
+        <result column="website" jdbcType="VARCHAR" property="website"/>
+        <result column="introduce" jdbcType="VARCHAR" property="introduce"/>
+        <result column="is_admin" jdbcType="INTEGER" property="isAdmin"/>
+        <result column="follows" jdbcType="INTEGER" property="follows"/>
+        <result column="fans" jdbcType="INTEGER" property="fans"/>
+        <result column="positions" jdbcType="VARCHAR" property="positions"/>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"/>
+        <result column="dept_code" jdbcType="VARCHAR" property="deptCode"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
     </resultMap>
     <resultMap id="memberWithMessageResult" type="Member">
-        <collection property="messages" javaType="ArrayList" column="{from_member_id=from_member_id,to_member_id=to_member_id}" ofType="Message" select="selectUnreadMessagesByMember"/>
+        <collection property="messages" javaType="ArrayList"
+                    column="{from_member_id=from_member_id,to_member_id=to_member_id}" ofType="Message"
+                    select="selectUnreadMessagesByMember"/>
     </resultMap>
 
     <!-- 会员登录 -->
@@ -67,7 +73,8 @@
     <!-- 会员列表 -->
     <select id="listByPage" resultMap="RemberResult">
         select
-        a.id, a.name, a.phone, a.email, a.create_time, a.login_count, a.status,a.is_admin,a.sex,a.address,a.introduce,a.wechat,a.avatar from tbl_member a
+        a.id, a.name, a.phone, a.email, a.create_time, a.login_count,
+        a.status,a.is_admin,a.sex,a.address,a.introduce,a.wechat,a.avatar,a.dept_name,a.dept_code,a.code,a.positions from tbl_member a
         <where>
             <if test="key != null and key != ''">
                 and (a.name LIKE #{key} or a.phone like #{key} or email like #{key})
@@ -136,8 +143,35 @@
 
     <!-- 注册 -->
     <insert id="register" parameterType="Member" keyProperty="id" useGeneratedKeys="true">
-    insert into tbl_member (name, email, password, avatar, create_time, regip,last_login_time,last_login_ip,curr_login_time,curr_login_ip)
-    values (#{name}, #{email}, #{password}, #{avatar}, now(),#{regip},now(),#{regip},now(),#{regip})
+        insert into tbl_member (name, email, password, avatar, create_time,
+        regip,last_login_time,last_login_ip,curr_login_time,curr_login_ip
+        <if test="deptName !=null and deptName!=''">,dept_name
+        </if>
+        <if test="deptCode !=null and deptCode!=''">,dept_code
+        </if>
+        <if test="positions !=null and positions!=''">,positions
+        </if>
+        <if test="code !=null and code!=''">,code
+        </if>
+        <if test="phone !=null and phone!=''">,phone
+        </if>
+        )
+        values (#{name}, #{email}, #{password}, #{avatar}, now(),#{regip},now(),#{regip},now(),#{regip}
+        <if test="deptName !=null and deptName!=''">
+            ,#{deptName}
+        </if>
+        <if test="deptCode !=null and deptCode!=''">
+            ,#{deptCode}
+        </if>
+        <if test="positions !=null and positions!=''">
+            ,#{positions}
+        </if>
+        <if test="code !=null and code!=''">
+            ,#{code}
+        </if>
+        <if test="phone !=null and phone!=''">,#{phone}
+        </if>
+        )
     </insert>
 
     <!-- 修改基本信息 -->

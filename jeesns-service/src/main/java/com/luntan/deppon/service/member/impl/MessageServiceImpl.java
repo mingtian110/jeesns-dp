@@ -8,6 +8,7 @@ import com.luntan.deppon.dao.member.IMessageDao;
 import com.luntan.deppon.model.member.Member;
 import com.luntan.deppon.model.member.Message;
 import com.luntan.deppon.service.member.IMessageService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,6 +94,12 @@ public class MessageServiceImpl implements IMessageService {
     @Override
     public ResponseModel sendMsg(Member loginMember, Member findMember){
         String content="我在cubc-luntan向你发了一条消息,烦请回复下\n --"+loginMember.getName();
+        if(StringUtils.isBlank(findMember.getPhone())){
+            return new ResponseModel(0, "对方手机号为空");
+        }
+        if(StringUtils.isBlank(loginMember.getPhone())){
+            return new ResponseModel(0, "你的手机号为空");
+        }
         Result<String> stringResult = billMessageService.sendMessage(findMember.getPhone(), content);
         if(stringResult.isSuccess()) {
             return new ResponseModel(0, "信息发送成功");
