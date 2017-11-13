@@ -93,7 +93,7 @@ public class MemberController extends BaseController {
             return MEMBER_FTL_PATH + "/login";
         }
         Member member=new Member();
-        member.setName(name+"-"+deptName);
+        member.setName(name/*+"-"+deptName*/);
         member.setPassword(password);
         ResponseModel responseModel = memberService.loginForCubc(member, request);
         loginMember=MemberUtil.getLoginMember(request);
@@ -135,7 +135,7 @@ public class MemberController extends BaseController {
         if(!data.equals(code)){
             return new ResponseModel(-1, "错误");
         }
-        String afterUserName=name+"-"+deptName;
+        String afterUserName=name/*+"-"+deptName*/;
         String afterEmail=code+"@deppon.com";
         //登录内容:工号-姓名-密码(需解密)-邮箱:工号@deppon.com
         Member member=new Member();
