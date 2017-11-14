@@ -34,7 +34,7 @@
                             <#if article.thumbnail??>
                                 <div class="media pull-left">
                                     <a href="${basePath}/article/detail/${article.id}">
-                                        <img src="${uploadCubcPath}${basePath}${article.thumbnail}" alt="${article.title}" height="80px" width="120px">
+                                        <img src="${uploadCubcPath}${basePath}${article.thumbnail}" alt="${article.title}" height="80px" width="120px" style="border-radius:10px;">
                                     </a>
                                 </div>
                             </#if>

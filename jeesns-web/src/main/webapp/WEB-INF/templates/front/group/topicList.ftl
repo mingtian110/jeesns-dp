@@ -36,7 +36,7 @@
                                 <div class="media pull-left">
                                     <a href="${basePath}/group/topic/${groupTopic.id}">
                                         <img src="${uploadCubcPath}${basePath}${groupTopic.thumbnail}"
-                                             alt="${groupTopic.title}" height="80px" width="120px">
+                                             alt="${groupTopic.title}" height="80px" width="120px" style="border-radius:10px;">
                                     </a>
                                 </div>
                             </#if>

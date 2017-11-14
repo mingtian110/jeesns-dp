@@ -37,21 +37,21 @@
                     <#--list  index path type id 2  每个单独上传  :active-->
                     <div class="carousel-inner">
                         <div class="item active">
-                            <img alt="First slide" src="${basePath}/res/front/images/banner1.png">
+                            <img alt="First slide" src="${basePath}/res/front/images/banner1.png" style="border-radius:10px;">
                             <div class="carousel-caption">
                                 <h3></h3>
                                 <p></p>
                             </div>
                         </div>
                         <div class="item">
-                            <img alt="Second slide" src="${basePath}/res/front/images/banner2.png">
+                            <img alt="Second slide" src="${basePath}/res/front/images/banner2.png" style="border-radius:10px;">
                             <div class="carousel-caption">
                                 <h3></h3>
                                 <p></p>
                             </div>
                         </div>
                         <div class="item">
-                            <img alt="Third slide" src="${basePath}/res/front/images/banner3.png">
+                            <img alt="Third slide" src="${basePath}/res/front/images/banner3.png" style="border-radius:10px;">
                             <div class="carousel-caption">
                                 <h3></h3>
                                 <p></p>
@@ -125,7 +125,7 @@
                                         <div class="item-content">
                                             <div class="media">
                                                 <a href="${basePath}/group/topic/${groupTopic.id}">
-                                                    <img src="${uploadCubcPath}${basePath}${groupTopic.thumbnail}" alt="${groupTopic.title}" height="150px" width="100%">
+                                                    <img src="${uploadCubcPath}${basePath}${groupTopic.thumbnail}" alt="${groupTopic.title}" height="150px" width="100%" style="border-radius:10px;">
                                                 </a>
                                             </div>
                                             <h4><a href="${basePath}/group/topic/${groupTopic.id}">${groupTopic.title}</a></h4>
@@ -163,7 +163,7 @@
                                         <div class="item-content">
                                             <div class="media">
                                                 <a href="${basePath}/article/detail/${article.id}">
-                                                    <img src="${uploadCubcPath}${basePath}${article.thumbnail}" alt="${article.title}" height="150px" width="100%">
+                                                    <img src="${uploadCubcPath}${basePath}${article.thumbnail}" alt="${article.title}" height="150px" width="100%" style="border-radius:10px;">
                                                 </a>
                                             </div>
                                             <h4><a href="${basePath}/article/detail/${article.id}">

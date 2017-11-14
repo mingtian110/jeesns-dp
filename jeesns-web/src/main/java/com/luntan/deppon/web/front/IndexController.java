@@ -6,6 +6,7 @@ import com.luntan.deppon.service.common.ILinkService;
 import com.luntan.deppon.service.group.IGroupFansService;
 import com.luntan.deppon.service.member.IMemberFansService;
 import com.luntan.deppon.service.member.IMemberService;
+import com.luntan.deppon.service.member.IMessageService;
 import com.luntan.deppon.service.system.IActionLogService;
 import com.luntan.deppon.web.common.BaseController;
 import com.luntan.deppon.common.utils.EmojiUtil;
@@ -80,6 +81,8 @@ public class IndexController extends BaseController {
         return jeesnsConfig.getFrontTemplate() + "/index";
     }
 
+    @Resource
+    private IMessageService messageService;
     @RequestMapping(value = "u/{id}",method = RequestMethod.GET)
     public String u(@PathVariable("id") Integer id, Model model){
         Page page = new Page(request);
@@ -92,6 +95,8 @@ public class IndexController extends BaseController {
         model.addAttribute("loginMember", loginMember);
         ResponseModel<ActionLog> list = actionLogService.memberActionLog(page,id);
         model.addAttribute("actionLogModel",list);
+//        int unReadMessageNum = messageService.countUnreadNum(loginMember.getId());
+//        request.setAttribute("unReadMessageNum", unReadMessageNum);
         return jeesnsConfig.getFrontTemplate() + "/u";
     }
 

@@ -102,6 +102,8 @@
     $("#sxa").css("color", "#fff")
     var E = window.wangEditor;
     var editor = new E('#div1', '#div2');
+    // 为当前的editor配置密钥
+//    editor.customConfig.mapAk = 'P5aSDyfWZhDlROBVyqzoozFlIS9FCoee';
     editor.customConfig.uploadImgServer = "${basePath}/uploadWangEditorImage";
     editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
     editor.customConfig.uploadImgMaxLength = 5
@@ -122,6 +124,7 @@
                 'justify',  // 对齐方式
                 'quote',  // 引用
                 'image',  // 插入图片
+                'emotion',
                 'table',  // 表格
                 'video',  // 插入视频
                 'code',  // 插入代码

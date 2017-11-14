@@ -35,12 +35,12 @@
                     <div class="form-group">
                         <div class="col-sm-12">
                             发送私信给：${member.name}
-                            <a href="${basePath}/member/message" target="_parent">聊天记录</a>
+                            <a href="${basePath}/member/message"  id="tosendmsg" target="_top" >聊天记录</a>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <textarea rows="5" class="form-control col-sm-12" id="content"></textarea>
+                            <textarea rows="5" class="form-control col-sm-12" id="content">${member.name},你好</textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -86,9 +86,11 @@
                     } else {
                         jeesnsDialog.errorTips(res.message);
                     }
-                    setTimeout(function () {
-                        jeesnsDialog.closeAll();
-                    },3000);
+                    var elementById = document.getElementById("tosendmsg");
+                    elementById.click();
+//                    setTimeout(function () {
+//                        jeesnsDialog.closeAll();
+//                    },3000);
                 }
             });
         })

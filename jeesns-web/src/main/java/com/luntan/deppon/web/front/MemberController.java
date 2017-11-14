@@ -317,6 +317,9 @@ public class MemberController extends BaseController {
         Page page = new Page(request);
         ResponseModel<ActionLog> list = actionLogService.memberActionLog(page,loginMemberId);
         model.addAttribute("actionLogModel",list);
+//        int unReadMessageNum = messageService.countUnreadNum(loginMember.getId());
+//        request.setAttribute("unReadMessageNum", unReadMessageNum);
+//        model.addAttribute("unReadMessageNum",unReadMessageNum);
         return MEMBER_FTL_PATH + "index";
     }
 

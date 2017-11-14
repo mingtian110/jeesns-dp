@@ -8,7 +8,7 @@
                                 class="navbar-toggle collapsed" type="button">
                             <i class="fa fa-reorder"></i>
                         </button>
-                        <a href="${basePath}/" class="navbar-brand"><img src="${uploadCubcPath}${basePath}${SITE_LOGO}" height="50px"/></a>
+                        <a href="${basePath}/" class="navbar-brand"><img src="${uploadCubcPath}${basePath}${SITE_LOGO}" height="50px" style="border-radius:8px;"/></a>
                     </div>
                     <div class="navbar-collapse collapse" id="navbar">
                         <ul class="nav navbar-nav">

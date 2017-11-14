@@ -7,8 +7,9 @@
     <meta name="keywords" content="${SITE_KEYS}"/>
     <meta name="description" content="${SITE_DESCRIPTION}"/>
     <meta name="author" content="cubc-luntan"/>
+    <link href="${basePath}/res/common/css/zui.min.css" rel="stylesheet">
     <link href="${basePath}/res/common/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${basePath}/res/common/css/font-awesome.min.css" rel="stylesheet">
+    <#--<link href="${basePath}/res/common/css/font-awesome.min.css" rel="stylesheet">-->
     <link href="${basePath}/res/common/css/jeesns.css" rel="stylesheet">
     <link href="${basePath}/res/common/css/jeesns-skin.css" rel="stylesheet">
     <link href="${basePath}/res/plugins/emoji/css/emoji.css" rel="stylesheet">

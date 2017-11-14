@@ -77,7 +77,7 @@
                                 <div class="item-content">
                                     <div class="media pull-left">
                                         <img src="${uploadCubcPath}${basePath}${topic.member.avatar}" class="img-circle"
-                                             alt="${topic.member.name}" width="50px" height="50px">
+                                             alt="${topic.member.name}" width="50px" height="50px" style="border-radius:10px;">
                                     </div>
                                     <div class="text">
                                         <p>
