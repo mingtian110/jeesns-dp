@@ -137,10 +137,10 @@ public class ArticleServiceImpl implements IArticleService {
             ResponseModel responseModel = archiveService.favor(loginMember,article.getArchiveId());
             if(responseModel.getCode() == 0){
                 //文章收到喜欢
-                scoreDetailService.scoreBonus(loginMember.getId(), ScoreRuleConsts.ARTICLE_RECEIVED_LIKE, articleId);
+//                scoreDetailService.scoreBonus(loginMember.getId(), ScoreRuleConsts.ARTICLE_RECEIVED_LIKE, articleId);
             }else if(responseModel.getCode() == 1){
                 //取消喜欢，扣除积分
-                scoreDetailService.scoreCancelBonus(loginMember.getId(),ScoreRuleConsts.ARTICLE_RECEIVED_LIKE, articleId);
+//                scoreDetailService.scoreCancelBonus(loginMember.getId(),ScoreRuleConsts.ARTICLE_RECEIVED_LIKE, articleId);
             }
             return responseModel;
         }

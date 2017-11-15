@@ -23,6 +23,7 @@
     <script src="${basePath}/res/plugins/js-emoji/emoji.js"></script>
     <script src="${basePath}/res/common/js/jquery.timeago.js"></script>
     <script src="${basePath}/res/plugins/gallery/js/jquery.blueimp-gallery.min.js"></script>
+    <script type="text/javascript" src="${basePath}/res/plugins/wangeditor/wangEditor.js"></script>
     <script>
         var base = "${basePath}";
         var uploadCubcPath = "${uploadCubcPath}";
@@ -85,6 +86,10 @@
                         <div class="reply-form">
                             <form class="form-horizontal jeesns_form" action="${basePath}/weibo/comment/${weibo.id}" method="post">
                                 <div class="form-group">
+                                    <div id="div1" class="toolbar">
+                                    </div>
+                                    <div id="div2" class="text">
+                                    </div>
                                     <textarea name="content" class="form-control new-comment-text" rows="2" id="weibo-content" maxlength="${WEIBO_POST_MAXCONTENT}"></textarea>
                                 </div>
                                 <div class="form-group comment-user">
@@ -142,6 +147,44 @@
         $(".weibo-favor").click(function () {
             weibo.favor($(this), "${basePath}")
         });
+        var E = window.wangEditor;
+        var editor = new E('#div1', '#div2');
+        editor.customConfig.uploadImgServer =  "${basePath}/uploadWangEditorImage";
+        editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
+        editor.customConfig.uploadImgMaxLength = 5
+        editor.customConfig.uploadFileName = "file"
+        // 修改菜单栏fixed的上边距（单发帖位 px）
+        editor.customConfig.menuFixed = 50;
+        var $content = $('#weibo-content');
+        editor.customConfig.menus =
+                [
+                    'head',  // 标题
+                    'bold',  // 粗体
+                    'italic',  // 斜体
+                    'underline',  // 下划线
+                    'strikeThrough',  // 删除线
+                    'foreColor',  // 文字颜色
+                    'backColor',  // 背景颜色
+                    'link',  // 插入链接
+                    'list',  // 列表
+                    'justify',  // 对齐方式
+                    'quote',  // 引用
+                    'image',  // 插入图片
+                    'table',  // 表格
+                    'video',  // 插入视频
+                    'code',  // 插入代码
+                    'undo',  // 撤销
+                    'redo'  // 重复
+                ]
+        editor.customConfig.uploadImgHeaders = {
+            'Accept': '*/*'
+        }
+        editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            $content.val(html)
+        }
+        editor.create();
+        $("#weibo-content").hide();
     });
 </script>
 </body>

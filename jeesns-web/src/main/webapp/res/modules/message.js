@@ -4,11 +4,12 @@ var contactsPageNo = 1;
 var contactsTotalPage = 1;
 var messagePageNo = 1;
 var messageTotalPage = 1;
+var messageTotal=0;
+
 $(document).ready(function () {
-
+    // var wangSend = document.getElementsByTagName("body");
+    // wangSend[0].onkeydown = keydownpassword;
     listContactMembers();
-
-
     $(".sendMessage").on("click", function () {
         if(memberid == -1){
             jeesnsDialog.errorTips("请先选择发送的对象");
@@ -124,57 +125,63 @@ function messageRecords(autoScroll,regain) {
             success: function (res) {
                 //重新获取联系人列表
                 listContactMembers(1);
-                if (res.code == 0) {
-                    var html = "";
-                    if(res.data.length == 0){
-                        $(".no-message").show();
-                    }else {
-                        $(".no-message").hide();
-                    }
-                    for (var i=res.data.length-1;i>=0;i--){
-                        var message = res.data[i];
-                        messageTotalPage = res.page.totalPage;
-                        var lr = "left";
-                        if(loginMemberId == message.fromMember.id) {
-                            lr = "right";
+                if(res.data.length==messageTotal){
+
+                }else{
+                    messageTotal=res.data.length;
+                    if (res.code == 0) {
+                        var html = "";
+                        if(res.data.length == 0){
+                            $(".no-message").show();
+                        }else {
+                            $(".no-message").hide();
                         }
-                        html += "<div class=\"chat-message "+lr+"\">";
-                        html += "<a href=\""+base +"/u/"+message.fromMember.id+"\" target='_blank'><img class=\"message-avatar\" src=\"" +uploadCubcPath+ base + message.fromMember.avatar+"\"></a>";
-                        html += "<div class=\"message\">";
-                        html += "<a href=\""+base+"/u/"+message.fromMember.id+"\" class='message-author' target='_blank'>"+message.fromMember.name+"</a>";
-                        html += "<span class=\"message-date\"> "+formatDateTime(message.createTime)+" </span>";
-                        html += "<span class=\"message-content\">";
-                        html += message.content;
-                        html += "</span></div></div>";
-                    }
-                    //获取旧的div高度
-                    var oldHeight = $(".chat-discussion")[0].scrollHeight;
-                    //重新获取用html
-                    if(regain == 1){
-                        $(".chat-discussion-content").html(html);
-                    }else {
-                        $(".chat-discussion-content").prepend(html);
-                    }
-                    if(messagePageNo >= messageTotalPage){
-                        messagePageNo = messageTotalPage;
-                        $(".message-load-more-a").html("已全部加载");
-                    }else {
-                        $(".message-load-more-a").html("加载更多...");
-                    }
-                    if(messageTotalPage == 1){
-                        $(".message-load-more-a").css("display","none");
-                    }else {
-                        $(".message-load-more-a").css("display","inline");
-                    }
-                    if(autoScroll == 1){
-                        $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight);
-                    }else {
-                        //旧的div高度高于420，说明有滚动过，可能获取到了第二页的数据，将滚动条保持在原来的位置
-                        if(oldHeight > 420){
-                            $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight - oldHeight);
+                        for (var i=res.data.length-1;i>=0;i--){
+                            var message = res.data[i];
+                            messageTotalPage = res.page.totalPage;
+                            var lr = "left";
+                            if(loginMemberId == message.fromMember.id) {
+                                lr = "right";
+                            }
+                            html += "<div class=\"chat-message "+lr+"\">";
+                            html += "<a href=\""+base +"/u/"+message.fromMember.id+"\" target='_blank'><img class=\"message-avatar\" src=\"" +uploadCubcPath+ base + message.fromMember.avatar+"\"></a>";
+                            html += "<div class=\"message\">";
+                            html += "<a href=\""+base+"/u/"+message.fromMember.id+"\" class='message-author' target='_blank'>"+message.fromMember.name+"</a>";
+                            html += "<span class=\"message-date\"> "+formatDateTime(message.createTime)+" </span>";
+                            html += "<span class=\"message-content\">";
+                            html += message.content;
+                            html += "</span></div></div>";
+                        }
+                        //获取旧的div高度
+                        var oldHeight = $(".chat-discussion")[0].scrollHeight;
+                        //重新获取用html
+                        if(regain == 1){
+                            $(".chat-discussion-content").html(html);
+                        }else {
+                            $(".chat-discussion-content").prepend(html);
+                        }
+                        if(messagePageNo >= messageTotalPage){
+                            messagePageNo = messageTotalPage;
+                            $(".message-load-more-a").html("已全部加载");
+                        }else {
+                            $(".message-load-more-a").html("加载更多...");
+                        }
+                        if(messageTotalPage == 1){
+                            $(".message-load-more-a").css("display","none");
+                        }else {
+                            $(".message-load-more-a").css("display","inline");
+                        }
+                        if(autoScroll == 1){
+                            $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight);
+                        }else {
+                            //旧的div高度高于420，说明有滚动过，可能获取到了第二页的数据，将滚动条保持在原来的位置
+                            if(oldHeight > 420){
+                                $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight - oldHeight);
+                            }
                         }
                     }
                 }
+
             }
         });
     }

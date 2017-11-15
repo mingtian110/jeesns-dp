@@ -83,7 +83,7 @@
                                     </div>
                                     <textarea class="form-control message-input" name="content" id="content"
                                               placeholder="可以快捷键复制粘贴图片"></textarea>
-                                    <button class="btn btn-info pull-right sendMessage" id="wangSend">发送</button>
+                                    <button class="btn btn-info pull-right sendMessage" id="wangSend">enter键可发送</button>
                                 </div>
                             </div>
                         </div>
@@ -144,6 +144,54 @@
     editor.create();
     editor.txt.append($content);
     $("#content").hide();
+
+    var wangSend = document.getElementsByTagName("body");
+    wangSend[0].onkeydown = keydownpassword;
+    function keydownpassword(e) {
+        e = e ? e : window.event;
+        var keyCode = e.which ? e.which : e.keyCode;
+        // console.log(keyCode);
+        if (keyCode == 13) {
+            if(memberid == -1){
+                jeesnsDialog.errorTips("请先选择发送的对象");
+                return;
+            }
+            var content =$("#content").val();
+            if (content == "") {
+                jeesnsDialog.errorTips("请输入私信内容");
+                return;
+            }
+            $.ajax({
+                url: base + "/member/sendMessage",
+                type: "post",
+                data: {
+                    memberId:memberid,
+                    content: content
+                },
+                cache: false,
+                dataType: "json",
+                timeout: 5000,
+                beforeSend: function () {
+                    index = jeesnsDialog.loading();
+                },
+                error: function () {
+                    jeesnsDialog.close(index);
+                    jeesnsDialog.errorTips("请求失败")
+                },
+                success: function (res) {
+                    jeesnsDialog.close(index);
+                    if (res.code == 0) {
+                        jeesnsDialog.successTips(res.message);
+                        messageRecords(1,1);
+                    } else {
+                        jeesnsDialog.errorTips(res.message);
+                    }
+                }
+            });
+            editor.txt.clear()
+            $("iframe").contents().find("p").html("");
+        }
+    }
 </script>
 </body>
 </html>

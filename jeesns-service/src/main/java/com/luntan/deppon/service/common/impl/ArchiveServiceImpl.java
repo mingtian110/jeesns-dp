@@ -83,6 +83,7 @@ public class ArchiveServiceImpl implements IArchiveService {
             message = "取消喜欢成功";
             responseModel = new ResponseModel(1,message);
         }
+        //这里可以懒加载,直接返回加1
         Archive findArchive = this.findByArchiveId(archiveId);
         responseModel.setData(findArchive.getFavor());
         return responseModel;
