@@ -146,7 +146,9 @@ function messageRecords(autoScroll,regain) {
                             html += "<div class=\"message\">";
                             html += "<a href=\""+base+"/u/"+message.fromMember.id+"\" class='message-author' target='_blank'>"+message.fromMember.name+"</a>";
                             if(loginMemberId == message.fromMember.id) {
-                                html += "<span class=\"button\" style='float: left'> "+"<a  onclick='messageRecordsDelete("+message.id+")' class='message-author'>撤回</a>"+"&nbsp;</span> ";
+                                if(message.isread==0){
+                                    html += "<span class=\"button\" style='float: left'> "+"<a  onclick='messageRecordsDelete("+message.id+")' class='message-author'>撤回</a>"+"&nbsp;</span> ";
+                                }
                                 if(message.isread==0){
                                     html += "<span class='messager-author' style='float: left'> "+"未读"+"</span>";
                                 }else{

@@ -32,7 +32,7 @@
             <div class="col-md-12 white-bg m-b-10">
                 <div class="items">
                 <#if model.page.totalCount==0>
-                    暂无关注
+                <p class="text-muted text-center" ></br></br></br>暂无关注...</p>
                 <#else>
                     <#list model.data as actionLog>
                         <div class="comment">
