@@ -63,6 +63,7 @@ public class ActionController extends BaseController {
         for(MemberFans item:memberList){
             list.add(item.getFollowWho());
         }
+        list.add(loginMember.getId());
         Integer[] memberIds = list.toArray(new Integer[list.size()]);
         ResponseModel<ActionLog> actionList = actionLogService.memberActionLogFocus(page,memberIds);
         model.addAttribute("model", actionList);

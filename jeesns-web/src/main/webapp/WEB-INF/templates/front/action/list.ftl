@@ -31,34 +31,38 @@
         <div class="row">
             <div class="col-md-12 white-bg m-b-10">
                 <div class="items">
-                <#list model.data as actionLog>
-                    <div class="comment">
-                        <a href="${basePath}/u/${actionLog.member.id}" class="avatar" target="_blank">
-                            <img src="${uploadCubcPath}${basePath}${actionLog.member.avatar!''}" class="icon-camera-retro icon-2x">
-                        </a>
-                        <div class="content">
-                            <div class="pull-right text-muted timeago" datetime="${actionLog.createTime?string('yyyy-MM-dd HH:mm:ss')}"></div>
-                            <div>
-                                <a href="${basePath}/u/${actionLog.member.id}" target="_blank">
-                                    <strong><a href="${basePath}/u/${actionLog.member.id}">${actionLog.member.name}</a> </strong>于${actionLog.createTime?string('yyyy-MM-dd HH:mm')}${actionLog.action.log}：<br/>
-                                </a>
-                            </div>
-                            <div class="text emoji-render-content">
-                                <#if actionLog.type==1>
-                                    <a href="${basePath}/article/detail/${actionLog.foreignId}"
-                                       target="_blank">${actionLog.remark}</a>
-                                <#elseif actionLog.type==2>
-                                    <p>${actionLog.remark}</p>
-                                    <a href="${basePath}/weibo/detail/${actionLog.foreignId}"
-                                       target="_blank">查看</a>
-                                <#elseif actionLog.type==4>
-                                    <a href="${basePath}/group/topic/${actionLog.foreignId}"
-                                       target="_blank">${actionLog.remark}</a>
-                                </#if>
+                <#if model.page.totalCount==0>
+                    暂无关注
+                <#else>
+                    <#list model.data as actionLog>
+                        <div class="comment">
+                            <a href="${basePath}/u/${actionLog.member.id}" class="avatar" target="_blank">
+                                <img src="${uploadCubcPath}${basePath}${actionLog.member.avatar!''}" class="icon-camera-retro icon-2x">
+                            </a>
+                            <div class="content">
+                                <div class="pull-right text-muted timeago" datetime="${actionLog.createTime?string('yyyy-MM-dd HH:mm:ss')}"></div>
+                                <div>
+                                    <a href="${basePath}/u/${actionLog.member.id}" target="_blank">
+                                        <strong><a href="${basePath}/u/${actionLog.member.id}">${actionLog.member.name}</a> </strong>于${actionLog.createTime?string('yyyy-MM-dd HH:mm')}${actionLog.action.log}：<br/>
+                                    </a>
+                                </div>
+                                <div class="text emoji-render-content">
+                                    <#if actionLog.type==1>
+                                        <a href="${basePath}/article/detail/${actionLog.foreignId}"
+                                           target="_blank">${actionLog.remark}</a>
+                                    <#elseif actionLog.type==2>
+                                        <p>${actionLog.remark}</p>
+                                        <a href="${basePath}/weibo/detail/${actionLog.foreignId}"
+                                           target="_blank">查看</a>
+                                    <#elseif actionLog.type==4>
+                                        <a href="${basePath}/group/topic/${actionLog.foreignId}"
+                                           target="_blank">${actionLog.remark}</a>
+                                    </#if>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </#list>
+                    </#list>
+                </#if>
                 </div>
                 <ul class="pager pagination pagination-sm no-margin pull-right"
                     url="${basePath}/action/list"
