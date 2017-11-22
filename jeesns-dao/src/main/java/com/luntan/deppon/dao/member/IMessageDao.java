@@ -22,6 +22,7 @@ public interface IMessageDao extends IBaseDao<Message> {
      * @return
      */
     List<Message> messageRecords(@Param("page") Page page, @Param("fromMemberId") Integer fromMemberId, @Param("toMemberId") Integer toMemberId);
+    Integer messageRecordsDelete( @Param("messageId") Integer messageId);
 
     /**
      * 删除某个会员的所有聊天记录

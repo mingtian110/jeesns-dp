@@ -213,6 +213,7 @@ public class MemberController extends BaseController {
         try {
             url=ZooKeeperConfig.getInstance().getConfigInfo("cubcweb.jeesns.url");
         }catch (Exception e){
+            url="http://cubc.deppon.com";
         }
     }
 
@@ -482,7 +483,23 @@ public class MemberController extends BaseController {
         }
         return null;
     }
-
+    /**
+     * 获取聊天记录
+     * @param memberId
+     * @return
+     */
+    @RequestMapping(value = "/messageRecords/delete/{messageId}",method = RequestMethod.GET)
+    @ResponseBody
+    public Object messageRecordsDelete(@PathVariable("messageId") Integer messageId){
+        Page page = new Page(request);
+        Member loginMember = MemberUtil.getLoginMember(request);
+        if (loginMember != null){
+            //获取聊天记录
+            ResponseModel messageRecords = messageService.messageRecordsDelete(page, messageId, loginMember.getId());
+            return messageRecords;
+        }
+        return null;
+    }
     /**
      * 发送信息窗口
      * @param memberId

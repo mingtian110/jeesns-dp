@@ -125,11 +125,9 @@ function messageRecords(autoScroll,regain) {
             success: function (res) {
                 //重新获取联系人列表
                 listContactMembers(1);
-                if(res.data.length==messageTotal){
-
-                }else{
+                if(res.code==1){
                     messageTotal=res.data.length;
-                    if (res.code == 0) {
+                    if (res.code == 1) {
                         var html = "";
                         if(res.data.length == 0){
                             $(".no-message").show();
@@ -143,11 +141,21 @@ function messageRecords(autoScroll,regain) {
                             if(loginMemberId == message.fromMember.id) {
                                 lr = "right";
                             }
+                            // href=\""+base+"/member/messageRecords/delete/"+message.id+"\"
                             html += "<div class=\"chat-message "+lr+"\">";
                             html += "<a href=\""+base +"/u/"+message.fromMember.id+"\" target='_blank'><img class=\"message-avatar\" src=\"" +uploadCubcPath+ base + message.fromMember.avatar+"\"></a>";
                             html += "<div class=\"message\">";
                             html += "<a href=\""+base+"/u/"+message.fromMember.id+"\" class='message-author' target='_blank'>"+message.fromMember.name+"</a>";
-                            html += "<span class=\"message-date\"> "+formatDateTime(message.createTime)+" </span>";
+                            if(loginMemberId == message.fromMember.id) {
+                                html += "<span class=\"button\" style='float: left'> "+"<a  onclick='messageRecordsDelete("+message.id+")' class='message-author'>撤回</a>"+"&nbsp;</span> ";
+                                if(message.isread==0){
+                                    html += "<span class='messager-author' style='float: left'> "+"未读"+"</span>";
+                                }else{
+                                    html += "<span class='messager-author' style='float: left'> "+"已读"+"</span>";
+                                }
+                            }
+                            // console.log(JSON.stringify(message));
+                            html += "<span class=\"message-date\"> &nbsp;"+formatDateTime(message.createTime)+" </span>";
                             html += "<span class=\"message-content\">";
                             html += message.content;
                             html += "</span></div></div>";
@@ -180,13 +188,38 @@ function messageRecords(autoScroll,regain) {
                             }
                         }
                     }
-                }
+                }else if(res.data.length==messageTotal){
 
+                }
             }
         });
     }
 }
-
+function messageRecordsDelete(id) {
+    $.ajax({
+        url: base + "/member/messageRecords/delete/"+id,
+        type: "get",
+        cache: false,
+        timeout: 5000,
+        beforeSend: function () {
+            index = jeesnsDialog.loading();
+        },
+        error: function () {
+            jeesnsDialog.close(index);
+            jeesnsDialog.errorTips("请求失败")
+        },
+        success: function (res) {
+            jeesnsDialog.close(index);
+            var parseJSON = JSON.parse(res);
+            if (parseJSON.code == 0) {
+                jeesnsDialog.successTips(parseJSON.message);
+                messageRecords(1,1);
+            } else {
+                jeesnsDialog.errorTips(parseJSON.message);
+            }
+        }
+    });
+}
 //获取联系人
 function listContactMembers(autoRefresh) {
     if(autoRefresh == 1){

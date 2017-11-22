@@ -9,6 +9,8 @@ import com.luntan.deppon.model.member.Member;
 import com.luntan.deppon.model.member.Message;
 import com.luntan.deppon.service.member.IMessageService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ public class MessageServiceImpl implements IMessageService {
     private IMessageDao messageDao;
     @Resource
     private MessageService billMessageService;
+    private final static Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
+
 
     @Override
     public ResponseModel save(Integer fromMemberId, Integer toMemberId, String content) {
@@ -57,12 +61,38 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId) {
+        //设置该会员聊天记录为已读
+        this.setRead(fromMemberId,toMemberId);
         List<Message> list = messageDao.messageRecords(page, fromMemberId, toMemberId);
         ResponseModel model = new ResponseModel(0, page);
         model.setData(list);
-        //设置该会员聊天记录为已读
-        this.setRead(fromMemberId,toMemberId);
+        model.setCode(1);
+//        model.setMessage("有新消息");
         return model;
+    }
+    @Override
+    public ResponseModel<Message> messageRecordsDelete(Page page, Integer messageId, Integer toMemberId) {
+        //设置该会员聊天记录为已读
+        Integer count =0;
+        try {
+            count = messageDao.messageRecordsDelete(messageId);
+        }catch (Exception e){
+            logger.error("",e);
+        }
+        ResponseModel model = new ResponseModel(0, page);
+        if(count==1) {
+            return new ResponseModel(0, "撤回成功");
+        }else{
+            return new ResponseModel(1, "撤回失败");
+        }
+//        if("1".equals(count+"")){
+//            model.setCode(0);
+//            model.setMessage("撤回成功");
+//        }else{
+//            model.setCode(1);
+//            model.setMessage("撤回失败");
+//        }
+//        return model;
     }
 
     @Override

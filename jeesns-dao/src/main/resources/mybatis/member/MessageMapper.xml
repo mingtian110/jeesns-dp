@@ -36,6 +36,9 @@
     OR (a.from_member_id = #{toMemberId} AND a.to_member_id = #{fromMemberId})
     ORDER BY a.id DESC
   </select>
+  <delete id="messageRecordsDelete" >
+    delete from tbl_message where id=#{messageId}
+  </delete>
   <select id="countUnreadNum" resultType="Integer">
     SELECT COUNT(*) num FROM tbl_message WHERE isread = 0 AND to_member_id = #{memberId}
   </select>

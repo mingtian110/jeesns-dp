@@ -17,6 +17,7 @@ public interface IMessageService {
     ResponseModel<Message> listByPage(Page page, Integer fromMemberId, Integer toMemberId);
 
     ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId);
+    ResponseModel<Message> messageRecordsDelete(Page page, Integer messageId, Integer toMemberId);
 
     /**
      * 删除某个会员的所有聊天记录
