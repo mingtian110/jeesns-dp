@@ -67,15 +67,14 @@ public class WeiboController extends BaseController {
         model.addAttribute("loginUser", loginMember);
         return jeesnsConfig.getFrontTemplate() + "/weibo/list";
     }
-    @RequestMapping(value = "/mylist",method = RequestMethod.GET)
-    public String mylist(@RequestParam(value = "key",required = false,defaultValue = "") String key, Model model){
+    @RequestMapping(value = "/listFocus",method = RequestMethod.GET)
+    public String listFocus(@RequestParam(value = "key",required = false,defaultValue = "") String key, Model model){
         Page page = new Page(request);
         Member loginMember = MemberUtil.getLoginMember(request);
         int loginMemberId = loginMember == null ? 0 : loginMember.getId();
         //查询自己关注的人 select *  from fans where who_follow =#{id}
         List<MemberFans> list = memberFansDao.followsList(page, loginMemberId);
         //缩短条件
-
         ResponseModel responseModel = weiboService.listByPage(page,0,loginMemberId,key);
         model.addAttribute("model",responseModel);
         List<Weibo> hotList = weiboService.hotList(loginMemberId);

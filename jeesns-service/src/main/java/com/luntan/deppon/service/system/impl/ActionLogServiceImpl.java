@@ -36,6 +36,13 @@ public class ActionLogServiceImpl implements IActionLogService {
         model.setData(list);
         return model;
     }
+    @Override
+    public ResponseModel<ActionLog> memberActionLogFocus(Page page, Integer[] memberIds) {
+        List<ActionLog> list = actionLogDao.memberActionLogFocus(page, memberIds);
+        ResponseModel model = new ResponseModel(0, page);
+        model.setData(list);
+        return model;
+    }
 
     @Override
     public ActionLog findById(Integer id) {

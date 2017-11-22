@@ -15,4 +15,5 @@ public interface IActionLogDao extends IBaseDao<ActionLog> {
     List<ActionLog> listByPage(@Param("page") Page page, @Param("memberId") Integer memberId);
 
     List<ActionLog> memberActionLog(@Param("page") Page page, @Param("memberId") Integer memberId);
+    List<ActionLog> memberActionLogFocus(@Param("page") Page page, @Param("memberIds") Integer[] memberIds);
 }

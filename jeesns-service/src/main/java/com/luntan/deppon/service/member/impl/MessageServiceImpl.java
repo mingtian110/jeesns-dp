@@ -62,11 +62,15 @@ public class MessageServiceImpl implements IMessageService {
     @Override
     public ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId) {
         //设置该会员聊天记录为已读
-        this.setRead(fromMemberId,toMemberId);
+        int i = this.setRead(fromMemberId, toMemberId);
         List<Message> list = messageDao.messageRecords(page, fromMemberId, toMemberId);
         ResponseModel model = new ResponseModel(0, page);
         model.setData(list);
-        model.setCode(1);
+        if(i>0) {
+            model.setCode(1);
+        }else{
+            model.setCode(0);
+        }
 //        model.setMessage("有新消息");
         return model;
     }
@@ -75,6 +79,8 @@ public class MessageServiceImpl implements IMessageService {
         //设置该会员聊天记录为已读
         Integer count =0;
         try {
+            //超过3分钟不允许撤回
+
             count = messageDao.messageRecordsDelete(messageId);
         }catch (Exception e){
             logger.error("",e);
@@ -83,7 +89,7 @@ public class MessageServiceImpl implements IMessageService {
         if(count==1) {
             return new ResponseModel(0, "撤回成功");
         }else{
-            return new ResponseModel(1, "撤回失败");
+            return new ResponseModel(1, "已读无法撤回");
         }
 //        if("1".equals(count+"")){
 //            model.setCode(0);

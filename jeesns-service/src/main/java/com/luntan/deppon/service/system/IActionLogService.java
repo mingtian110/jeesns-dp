@@ -12,6 +12,7 @@ public interface IActionLogService {
     ResponseModel<ActionLog> listByPage(Page page, Integer memberId);
 
     ResponseModel<ActionLog> memberActionLog(Page page, Integer memberId);
+    ResponseModel<ActionLog> memberActionLogFocus(Page page, Integer[] memberIds);
 
     ActionLog findById(Integer id);
 

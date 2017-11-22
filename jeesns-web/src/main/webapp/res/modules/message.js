@@ -125,9 +125,8 @@ function messageRecords(autoScroll,regain) {
             success: function (res) {
                 //重新获取联系人列表
                 listContactMembers(1);
-                if(res.code==1){
+                if(res.code==1||res.data.length>messageTotal||res.data.length<messageTotal){
                     messageTotal=res.data.length;
-                    if (res.code == 1) {
                         var html = "";
                         if(res.data.length == 0){
                             $(".no-message").show();
@@ -187,7 +186,6 @@ function messageRecords(autoScroll,regain) {
                                 $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight - oldHeight);
                             }
                         }
-                    }
                 }else if(res.data.length==messageTotal){
 
                 }
