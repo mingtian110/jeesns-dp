@@ -3,6 +3,7 @@ package com.luntan.deppon.service.member;
 import com.luntan.deppon.core.dto.ResponseModel;
 import com.luntan.deppon.core.model.Page;
 import com.luntan.deppon.model.member.Member;
+import com.luntan.deppon.model.member.TmpContact;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -161,7 +162,7 @@ public interface IMemberService {
      * @param memberId
      * @return
      */
-    List<Member> listContactMemberIds(Page page, Integer memberId);
+    List<TmpContact> listContactMemberIds(Page page, Integer memberId);
 
     /**
      * 获取私信中的联系人列表

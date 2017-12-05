@@ -77,6 +77,8 @@
                                                         <img src='${uploadCubcPath}${basePath}${member.avatar}' class="img-circle" width="25px" height="25px" >
                                                     </div>
                                                     <strong><a href="/u/${member.id}" target="_blank">${(member.name || member.email)?string(member.name,member.email)}</a></strong>
+                                                    <a href="${basePath}/member/message?mid=${member.id}"  id="contactTo" target="_top" ><i
+                                                            class="icon-chat-dot" ></i></a>
                                                 </td>
                                                 <td>${member.code}</td>
                                                 <td>${member.phone}</td>

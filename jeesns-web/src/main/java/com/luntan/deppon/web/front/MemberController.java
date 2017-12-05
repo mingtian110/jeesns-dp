@@ -8,11 +8,13 @@ import com.luntan.deppon.common.utils.ScoreRuleConsts;
 import com.luntan.deppon.core.utils.*;
 import com.luntan.deppon.core.utils.StringUtils;
 import com.luntan.deppon.dao.member.IMemberDao;
+import com.luntan.deppon.dao.member.ITmpContactDao;
 import com.luntan.deppon.interceptor.AdminLoginInterceptor;
 import com.luntan.deppon.interceptor.UserLoginInterceptor;
 import com.luntan.deppon.core.annotation.Before;
 import com.luntan.deppon.core.dto.ResponseModel;
 import com.luntan.deppon.core.model.Page;
+import com.luntan.deppon.model.member.TmpContact;
 import com.luntan.deppon.service.member.IMemberService;
 import com.luntan.deppon.service.member.IMessageService;
 import com.luntan.deppon.service.member.IScoreDetailService;
@@ -38,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -405,7 +408,8 @@ public class MemberController extends BaseController {
         return memberService.isFollowed(loginMember,followWhoId);
     }
 
-
+    @Autowired(required = false)
+    private ITmpContactDao iTmpContactDao;
     /**
      * 获取该登录会员的收件信息
      * @param memberId
@@ -420,11 +424,33 @@ public class MemberController extends BaseController {
         if(loginMember != null){
             loginMemberId = loginMember.getId();
         }
+        if(memberId!=null&&memberId!=0){
+            TmpContact fromtmpContact=new TmpContact();
+            fromtmpContact.setOwnId(loginMemberId);
+            fromtmpContact.setContactId(memberId);
+            fromtmpContact.setContactType("0");
+            List<TmpContact> fromselect = iTmpContactDao.select(fromtmpContact);
+            if(fromselect==null||fromselect.size()==0){
+                iTmpContactDao.insert(fromtmpContact);
+            }
+        }
+//        TmpContact totmpContact=new TmpContact();
+//        totmpContact.setOwnId(memberId);
+//        totmpContact.setContactId(loginMemberId);
+//        totmpContact.setContactType("0");
+//        List<TmpContact> toselect = iTmpContactDao.select(totmpContact);
+//        if(toselect==null||toselect.size()==0){
+//            iTmpContactDao.insert(totmpContact);
+//        }
         //获取联系人
 //        ResponseModel contactMembers = messageService.listContactMembers(page, loginMemberId);
 //        获取联系人
 //        ResponseModel contactMembers = messageService.listContactMembers(page, memberId, loginMemberId);
 //        model.addAttribute("model", contactMembers);
+        //插入联系人
+
+
+
         return MEMBER_FTL_PATH + "message";
     }
     /**
@@ -478,7 +504,7 @@ public class MemberController extends BaseController {
         Member loginMember = MemberUtil.getLoginMember(request);
         if (loginMember != null){
             //获取聊天记录
-            ResponseModel messageRecords = messageService.messageRecords(page, memberId, loginMember.getId());
+            ResponseModel messageRecords = messageService.messageRecords(page, memberId, loginMember.getId(),request);
             return messageRecords;
         }
         return null;
@@ -591,6 +617,37 @@ public class MemberController extends BaseController {
             request.getSession().setAttribute("msgCount",msgCount);
         }
         return messageService.sendMsg(loginMember, findMember);
+    }
+    /**
+     * 发送信息
+     * @param memberName
+     * @param memberId
+     * @return
+     */
+    @RequestMapping(value = "/deleteContact",method = RequestMethod.POST)
+    @ResponseBody
+    public Object deleteContact(Integer memberId,String memberName){
+        Member loginMember = MemberUtil.getLoginMember(request);
+        if(loginMember == null){
+            return new ResponseModel(-1,"请先登录");
+        }
+        if(memberId == null){
+            return new ResponseModel(-1,"请选择发送对象");
+        }
+        Member findMember= memberService.findById(memberId);
+        if(findMember == null){
+            return new ResponseModel(-1,"会员不存在");
+        }
+        TmpContact tmpContact=new TmpContact();
+        tmpContact.setOwnId(loginMember.getId());
+        tmpContact.setContactId(memberId);
+        tmpContact.setContactType("0");
+        Integer delete = iTmpContactDao.delete(tmpContact);
+        if(delete==1){
+            return new ResponseModel(0, "ok");
+        }else{
+            return new ResponseModel(-1, "");
+        }
     }
     /**
      *找人

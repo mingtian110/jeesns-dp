@@ -187,7 +187,7 @@
     <update id="editOtherInfo" parameterType="Member">
         update tbl_member
         <set>
-            birthday=#{birthday},qq=#{qq},wechat=#{wechat},contact_phone=#{contactPhone},contact_email=#{contactEmail},website=#{website}
+            birthday=#{birthday},qq=#{qq},wechat=#{wechat},contact_phone=#{contactPhone},phone=#{contactPhone},contact_email=#{contactEmail},website=#{website}
         </set>
         where id = #{id}
     </update>

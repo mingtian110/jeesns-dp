@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <div class="col-sm-12">
                             发送私信给：${member.name}
-                            <a href="${basePath}/member/message"  id="tosendmsg" target="_top" >聊天记录</a>
+                            <a href="${basePath}/member/message?mid=${member.id}"  id="tosendmsg" target="_top" >聊天记录</a>
                         </div>
                     </div>
                     <div class="form-group">

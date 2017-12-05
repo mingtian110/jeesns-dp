@@ -3695,7 +3695,7 @@ UploadImg.prototype = {
         }
         var editor = this.editor;
         var config = editor.config;
-        editor.cmd.do('insertHTML', '<img src="' + link + '" style="max-width:100%;"/>');
+        editor.cmd.do('insertHTML', '<a href="'+link+'" target="_blank">'+'<img src="' + link + '" style="max-width:100%;"/></a>');
 
         // 验证图片 url 是否有效，无效的话给出提示
         var img = document.createElement('img');

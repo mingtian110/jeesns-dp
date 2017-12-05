@@ -4,9 +4,12 @@ import com.deppon.cubc.bill.client.api.MessageService;
 import com.deppon.cubc.commons.dao.Result;
 import com.luntan.deppon.core.dto.ResponseModel;
 import com.luntan.deppon.core.model.Page;
+import com.luntan.deppon.dao.member.IMemberDao;
 import com.luntan.deppon.dao.member.IMessageDao;
+import com.luntan.deppon.dao.member.ITmpContactDao;
 import com.luntan.deppon.model.member.Member;
 import com.luntan.deppon.model.member.Message;
+import com.luntan.deppon.model.member.TmpContact;
 import com.luntan.deppon.service.member.IMessageService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -29,6 +33,8 @@ public class MessageServiceImpl implements IMessageService {
     private final static Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 
 
+    @Autowired(required = false)
+    ITmpContactDao iTmpContactDao;
     @Override
     public ResponseModel save(Integer fromMemberId, Integer toMemberId, String content) {
         if(fromMemberId.intValue() == toMemberId.intValue()){
@@ -42,6 +48,22 @@ public class MessageServiceImpl implements IMessageService {
         int save=0;
         try{
              save = messageDao.save(message);
+            TmpContact fromtmpContact=new TmpContact();
+            fromtmpContact.setOwnId(fromMemberId);
+            fromtmpContact.setContactId(toMemberId);
+            fromtmpContact.setContactType("0");
+            List<TmpContact> fromselect = iTmpContactDao.select(fromtmpContact);
+            if(fromselect==null||fromselect.size()==0){
+                iTmpContactDao.insert(fromtmpContact);
+            }
+            TmpContact totmpContact=new TmpContact();
+            totmpContact.setOwnId(toMemberId);
+            totmpContact.setContactId(fromMemberId);
+            totmpContact.setContactType("0");
+            List<TmpContact> toselect = iTmpContactDao.select(totmpContact);
+            if(toselect==null||toselect.size()==0){
+                iTmpContactDao.insert(totmpContact);
+            }
         }catch (Exception e){
             System.out.println(e.getStackTrace());
         }
@@ -58,16 +80,41 @@ public class MessageServiceImpl implements IMessageService {
         model.setData(list);
         return model;
     }
-
+    @Autowired(required = false)
+    private IMemberDao memberDao;
     @Override
-    public ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId) {
+    public ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId, HttpServletRequest request) {
         //设置该会员聊天记录为已读
         int i = this.setRead(fromMemberId, toMemberId);
-        List<Message> list = messageDao.messageRecords(page, fromMemberId, toMemberId);
+        //如果有更新,则发信人有消息变动提示 发信人读取导通知后就更新状态为已无消息
+        if(i>0){
+            request.getServletContext().setAttribute("note-"+fromMemberId,true);
+        }
+//        List<Message> list = messageDao.messageRecords(page, fromMemberId, toMemberId);
+        List<Message> list = messageDao.messageRecordsByTmpContact(page, fromMemberId, toMemberId);
+        //1.查message  2.赋值member
+        Member   fromMember = memberDao.findById(fromMemberId);
+        Member   toMember = memberDao.findById(toMemberId);
+        for(Message item:list){
+            Integer fromMemberId1 = fromMember.getId();
+            if(fromMemberId1.equals(item.getFromMemberId())){
+                item.setFromMember(fromMember);
+                item.setToMember(toMember);
+            }else{
+                item.setFromMember(toMember);
+                item.setToMember(fromMember);
+            }
+        }
         ResponseModel model = new ResponseModel(0, page);
         model.setData(list);
-        if(i>0) {
+        Boolean note = (Boolean)request.getServletContext().getAttribute("note-" + toMemberId);
+        logger.error("note-" + fromMemberId+":"+note);
+        if(note==null){
+            note=false;
+        }
+        if(i>0||note) {
             model.setCode(1);
+            request.getServletContext().setAttribute("note-" + toMemberId,false);
         }else{
             model.setCode(0);
         }
@@ -118,7 +165,10 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public int setRead(Integer fromMemberId, Integer toMemberId) {
-        return messageDao.setRead(fromMemberId,toMemberId);
+        int i = messageDao.setRead(fromMemberId, toMemberId);
+        logger.error("tomemberId:"+toMemberId);
+        logger.error("已读消息:"+i);
+        return i;
     }
 
     /**
@@ -129,7 +179,7 @@ public class MessageServiceImpl implements IMessageService {
      */
     @Override
     public ResponseModel sendMsg(Member loginMember, Member findMember){
-        String content="我在cubc-luntan向你发了一条消息,烦请回复下\n --"+loginMember.getName();
+        String content="你好,我是"+loginMember.getName()+",我在cubc-luntan向你发了一条消息,烦请登录cubc,点击右上角登录论坛查看,我的手机号是:"+loginMember.getPhone()+",你也可以直接电话联系我\n";
         if(StringUtils.isBlank(findMember.getPhone())){
             return new ResponseModel(0, "对方手机号为空");
         }

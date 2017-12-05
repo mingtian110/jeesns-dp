@@ -5,6 +5,8 @@ import com.luntan.deppon.core.model.Page;
 import com.luntan.deppon.model.member.Member;
 import com.luntan.deppon.model.member.Message;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 会员私信Service
  * Created by cubc-luntan 17/3/9.
@@ -16,7 +18,7 @@ public interface IMessageService {
 
     ResponseModel<Message> listByPage(Page page, Integer fromMemberId, Integer toMemberId);
 
-    ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId);
+    ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId, HttpServletRequest request);
     ResponseModel<Message> messageRecordsDelete(Page page, Integer messageId, Integer toMemberId);
 
     /**

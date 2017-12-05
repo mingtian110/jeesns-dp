@@ -28,6 +28,7 @@
     <script src="${basePath}/res/common/js/jquery.form.js"></script>
     <script src="${basePath}/res/common/js/jeesns.js"></script>
     <script type="text/javascript" src="${basePath}/res/plugins/wangeditor/wangEditor.js"></script>
+    <script src="${basePath}/res/plugins/gallery/js/jquery.blueimp-gallery.min.js"></script>
 
     <script type="text/javascript">
         var basePath = "${basePath}";
@@ -48,7 +49,8 @@
                 <div class="ibox chat-view">
                     <div class="ibox-title">
                         <small class="pull-right text-muted" id="user-name"></small>
-                        私信(如对方长时间不回复,可点击提醒发送短信给对方,每日短信限量三条,请谨慎使用)
+                        <a id="refreshMessage"target="_parent" href="${basePath}/member/message?mid=0">私信</a>(如对方长时间不回复,可点击提醒发送短信给对方,每日短信限量三条,请谨慎使用)
+
                     </div>
                     <div class="ibox-content">
                         <div class="row">
@@ -96,6 +98,10 @@
 <#--</div>-->
 <#include "/member/common/footer.ftl"/>
 <script type="text/javascript">
+    function bbimg(o){
+        var zoom=parseInt(o.style.zoom, 10)||100;zoom+=event.wheelDelta/12;if (zoom>0) o.style.zoom=zoom+'%';
+        return false;
+    }
     $(".navbar").css("padding-top", "0px")
 //    $("#sx").addClass("active")
 //    $("#sxa").css("border-radius", "25px")

@@ -22,6 +22,7 @@ public interface IMessageDao extends IBaseDao<Message> {
      * @return
      */
     List<Message> messageRecords(@Param("page") Page page, @Param("fromMemberId") Integer fromMemberId, @Param("toMemberId") Integer toMemberId);
+    List<Message> messageRecordsByTmpContact(@Param("page") Page page, @Param("fromMemberId") Integer fromMemberId, @Param("toMemberId") Integer toMemberId);
     Integer messageRecordsDelete( @Param("messageId") Integer messageId);
 
     /**
@@ -52,5 +53,5 @@ public interface IMessageDao extends IBaseDao<Message> {
      * @param toMemberId
      * @return
      */
-    int setRead(@Param("fromMemberId") Integer fromMemberId, @Param("toMemberId") Integer toMemberId);
+    Integer setRead(@Param("fromMemberId") Integer fromMemberId, @Param("toMemberId") Integer toMemberId);
 }

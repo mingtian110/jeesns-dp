@@ -32,7 +32,33 @@
             <div class="col-md-12 white-bg m-b-10">
                 <div class="items">
                 <#if model.page.totalCount==0>
-                <p class="text-muted text-center" ></br></br></br>暂无关注...</p>
+                <p class="text-muted text-center" ></br></br></br>
+                    <i class="icon-edit-sign"></i>
+                    <i class="icon-edit"></i>
+                    <i class="icon-2x"></i>
+                    <i class="icon-3x"></i>
+                    <i class="icon-4x"></i>
+                    <i class="icon-5x"></i>
+                    <i class="icon-adjust"></i>
+                    <i class="icon-align-justify"></i>
+                    <i class="icon-align-left"></i>
+                    <i class="icon-alipay"></i>
+                    <i class="icon-alipay-square"></i>
+                    <i class="icon-anchor"></i>
+                    <i class="icon-android"></i>
+                    <i class="icon-angle-down"></i>
+                    <i class="icon-angle-left"></i>
+                    <i class="icon-angle-right"></i>
+                    <i class="icon-apple"></i>
+                    <i class="icon-archive"></i>
+                    <i class="icon-area-chart"></i>
+                    <i class="icon-backward"></i>
+                    <i class="icon-ban-circle"></i>
+                    <i class="icon-arrow-down"></i>
+                    <i class="icon-barcode"></i>
+                    <i class="icon-beaker"></i>
+                    <i class="icon-"></i>
+                    暂无关注...</p>
                 <#else>
                     <#list model.data as actionLog>
                         <div class="comment">

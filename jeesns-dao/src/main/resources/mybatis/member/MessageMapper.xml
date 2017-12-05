@@ -36,6 +36,12 @@
     OR (a.from_member_id = #{toMemberId} AND a.to_member_id = #{fromMemberId})
     ORDER BY a.id DESC
   </select>
+  <select id="messageRecordsByTmpContact" resultMap="MessageResult">
+    select *
+     from  tbl_message
+    where (from_member_id = #{fromMemberId} AND to_member_id = #{toMemberId})or (from_member_id = #{toMemberId} AND to_member_id = #{fromMemberId})
+    ORDER BY id DESC
+  </select>
   <delete id="messageRecordsDelete" >
     delete from tbl_message where id=#{messageId} and isread=0
   </delete>

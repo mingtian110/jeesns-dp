@@ -100,6 +100,133 @@ function sendMsg(member_id,member_name) {
         }
     });
 }
+function deleteContact(member_id,member_name) {
+    if(member_id != memberid){
+        $(".chat-discussion-content").html("");
+    }
+    memberid = member_id;
+    memberName = member_name;
+    $.ajax({
+        url: base + "/member/deleteContact",
+        type: "post",
+        data: {
+            memberId:memberid,
+            memberName: memberName
+        },
+        cache: false,
+        async:false,
+        dataType: "json",
+        timeout: 5000,
+        beforeSend: function () {
+            index = jeesnsDialog.loading();
+        },
+        error: function () {
+            jeesnsDialog.close(index);
+            jeesnsDialog.errorTips("请求失败")
+        },
+        success: function (res) {
+            jeesnsDialog.close(index);
+            // if (res.code == 0) {
+            //     jeesnsDialog.successTips(res.message);
+            // } else {
+            //     jeesnsDialog.errorTips(res.message);
+            // }
+        }
+    });
+    // lisetcontact();
+    // messageRecordRefresh(1);
+    window.open("message?mid=0","_self");
+
+}
+function lisetcontact() {
+    $("#user-name").text(memberName);
+    if(memberid > -1){
+        $.ajax({
+            url: base + "/member/messageRecords/"+memberid,
+            type: "get",
+            data: {
+                pageNo : messagePageNo,
+                pageSize : 50
+            },
+            cache: false,
+            dataType: "json",
+            timeout: 5000,
+            error: function () {
+                jeesnsDialog.errorTips("私信记录获取失败，请刷新重试")
+            },
+            success: function (res) {
+                //重新获取联系人列表
+                listContactMembers(1);
+                if(res.code==1||res.data.length>messageTotal||res.data.length<messageTotal){
+                    messageTotal=res.data.length;
+                    var html = "";
+                    if(res.data.length == 0){
+                        $(".no-message").show();
+                    }else {
+                        $(".no-message").hide();
+                    }
+                    for (var i=res.data.length-1;i>=0;i--){
+                        var message = res.data[i];
+                        messageTotalPage = res.page.totalPage;
+                        var lr = "left";
+                        if(loginMemberId == message.fromMember.id) {
+                            lr = "right";
+                        }
+                        // href=\""+base+"/member/messageRecords/delete/"+message.id+"\"
+                        html += "<div class=\"chat-message "+lr+"\">";
+                        html += "<a href=\""+base +"/u/"+message.fromMember.id+"\" target='_blank'><img class=\"message-avatar\" src=\"" +uploadCubcPath+ base + message.fromMember.avatar+"\"></a>";
+                        html += "<div class=\"message\">";
+                        html += "<a href=\""+base+"/u/"+message.fromMember.id+"\" class='message-author' target='_blank'>"+message.fromMember.name+"</a>";
+                        if(loginMemberId == message.fromMember.id) {
+                            if(message.isread==0){
+                                html += "<span class=\"button\" style='float: left'> "+"<a  onclick='messageRecordsDelete("+message.id+")' class='message-author'>撤回</a>"+"&nbsp;</span> ";
+                            }
+                            if(message.isread==0){
+                                html += "<span class='messager-author' style='float: left'> "+"未读"+"</span>";
+                            }else{
+                                html += "<span class='messager-author' style='float: left'> "+"已读"+"</span>";
+                            }
+                        }
+                        // console.log(JSON.stringify(message));
+                        html += "<span class=\"message-date\"> &nbsp;"+formatDateTime(message.createTime)+" </span>";
+                        html += "<span class=\"message-content\">";
+                        html += message.content;
+                        html += "</span></div></div>";
+                    }
+                    //获取旧的div高度
+                    var oldHeight = $(".chat-discussion")[0].scrollHeight;
+                    //重新获取用html
+                    if(regain == 1){
+                        $(".chat-discussion-content").html(html);
+                    }else {
+                        $(".chat-discussion-content").prepend(html);
+                    }
+                    if(messagePageNo >= messageTotalPage){
+                        messagePageNo = messageTotalPage;
+                        $(".message-load-more-a").html("已全部加载");
+                    }else {
+                        $(".message-load-more-a").html("加载更多...");
+                    }
+                    if(messageTotalPage == 1){
+                        $(".message-load-more-a").css("display","none");
+                    }else {
+                        $(".message-load-more-a").css("display","inline");
+                    }
+                    if(autoScroll == 1){
+                        $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight);
+                    }else {
+                        //旧的div高度高于420，说明有滚动过，可能获取到了第二页的数据，将滚动条保持在原来的位置
+                        if(oldHeight > 420){
+                            $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight - oldHeight);
+                        }
+                    }
+                }else if(res.data.length==messageTotal){
+
+                }
+            }
+        });
+    }
+}
 
 //获取信息
 function messageRecords(autoScroll,regain) {
@@ -195,6 +322,96 @@ function messageRecords(autoScroll,regain) {
         });
     }
 }
+function messageRecordRefresh() {
+    var autoScroll = 1
+    $("#user-name").text(memberName);
+    if(memberid > -1){
+        $.ajax({
+            url: base + "/member/messageRecords/"+memberid,
+            type: "get",
+            data: {
+                pageNo : messagePageNo,
+                pageSize : 50
+            },
+            cache: false,
+            dataType: "json",
+            timeout: 5000,
+            error: function () {
+                jeesnsDialog.errorTips("私信记录获取失败，请刷新重试")
+            },
+            success: function (res) {
+                //重新获取联系人列表
+                listContactMembers(1);
+                if(res.code==1||res.data.length>messageTotal||res.data.length<messageTotal){
+                    messageTotal=res.data.length;
+                    var html = "";
+                    if(res.data.length == 0){
+                        $(".no-message").show();
+                    }else {
+                        $(".no-message").hide();
+                    }
+                    for (var i=res.data.length-1;i>=0;i--){
+                        var message = res.data[i];
+                        messageTotalPage = res.page.totalPage;
+                        var lr = "left";
+                        if(loginMemberId == message.fromMember.id) {
+                            lr = "right";
+                        }
+                        // href=\""+base+"/member/messageRecords/delete/"+message.id+"\"
+                        html += "<div class=\"chat-message "+lr+"\">";
+                        html += "<a href=\""+base +"/u/"+message.fromMember.id+"\" target='_blank'><img class=\"message-avatar\" src=\"" +uploadCubcPath+ base + message.fromMember.avatar+"\"></a>";
+                        html += "<div class=\"message\">";
+                        html += "<a href=\""+base+"/u/"+message.fromMember.id+"\" class='message-author' target='_blank'>"+message.fromMember.name+"</a>";
+                        if(loginMemberId == message.fromMember.id) {
+                            if(message.isread==0){
+                                html += "<span class=\"button\" style='float: left'> "+"<a  onclick='messageRecordsDelete("+message.id+")' class='message-author'>撤回</a>"+"&nbsp;</span> ";
+                            }
+                            if(message.isread==0){
+                                html += "<span class='messager-author' style='float: left'> "+"未读"+"</span>";
+                            }else{
+                                html += "<span class='messager-author' style='float: left'> "+"已读"+"</span>";
+                            }
+                        }
+                        // console.log(JSON.stringify(message));
+                        html += "<span class=\"message-date\"> &nbsp;"+formatDateTime(message.createTime)+" </span>";
+                        html += "<span class=\"message-content\">";
+                        html += message.content;
+                        html += "</span></div></div>";
+                    }
+                    //获取旧的div高度
+                    var oldHeight = $(".chat-discussion")[0].scrollHeight;
+                    //重新获取用html
+                    if(regain == 1){
+                        $(".chat-discussion-content").html(html);
+                    }else {
+                        $(".chat-discussion-content").prepend(html);
+                    }
+                    if(messagePageNo >= messageTotalPage){
+                        messagePageNo = messageTotalPage;
+                        $(".message-load-more-a").html("已全部加载");
+                    }else {
+                        $(".message-load-more-a").html("加载更多...");
+                    }
+                    if(messageTotalPage == 1){
+                        $(".message-load-more-a").css("display","none");
+                    }else {
+                        $(".message-load-more-a").css("display","inline");
+                    }
+                    if(autoScroll == 1){
+                        $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight);
+                    }else {
+                        //旧的div高度高于420，说明有滚动过，可能获取到了第二页的数据，将滚动条保持在原来的位置
+                        if(oldHeight > 420){
+                            $(".chat-discussion").scrollTop($(".chat-discussion")[0].scrollHeight - oldHeight);
+                        }
+                    }
+                }else if(res.data.length==messageTotal){
+
+                }
+            }
+        });
+    }
+}
 function messageRecordsDelete(id) {
     $.ajax({
         url: base + "/member/messageRecords/delete/"+id,
@@ -254,6 +471,8 @@ function listContactMembers(autoRefresh) {
                     html += "<div class=\"chat-user-name\">";
                     html += "<a href=\"javascript:void(0)\" onclick=\"getMessageRecords("+member.id+",'"+member.name+"')\" class=\"message-user-name\" data='"+member.id+"'>"+member.name+ unreadNumHtml + "</a>";
                     html += "<a href=\"javascript:void(0)\" onclick=\"sendMsg("+member.id+",'"+member.name+"')\" class=\"message-user-name\" data='"+member.id+"' style='color: #00a0e9'> 提醒</a>"
+                    html += "<a href=\"javascript:void(0)\" onclick=\"deleteContact("+member.id+",'"+member.name+"')\" class=\"message-user-name\" data='"+member.id
+                        +"' style='color: #00a0e9'>&nbsp;<i class=\"icon-minus\" ></i></a>"
                     html += "</div></div>";
                 }
                 if(autoRefresh == 1){

@@ -4,6 +4,8 @@ import com.luntan.deppon.common.utils.MemberUtil;
 import com.luntan.deppon.core.dto.ResponseModel;
 import com.luntan.deppon.core.model.Page;
 import com.luntan.deppon.core.utils.*;
+import com.luntan.deppon.dao.member.ITmpContactDao;
+import com.luntan.deppon.model.member.TmpContact;
 import com.luntan.deppon.model.system.ActionLog;
 import com.luntan.deppon.service.member.IMemberFansService;
 import com.luntan.deppon.service.system.IActionLogService;
@@ -19,6 +21,7 @@ import com.luntan.deppon.service.system.IConfigService;
 import com.luntan.deppon.common.utils.ActionUtil;
 import com.luntan.deppon.common.utils.ConfigUtil;
 import com.luntan.deppon.common.utils.ScoreRuleConsts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -484,10 +487,14 @@ public class MemberServiceImpl implements IMemberService {
             return new ResponseModel(1,"已关注");
         }
     }
+    @Autowired(required = false)
+    ITmpContactDao iTmpContactDao;
 
     @Override
-    public List<Member> listContactMemberIds(Page page, Integer memberId) {
-        List<Member> list = memberDao.listContactMemberIds(page, memberId);
+    public List<TmpContact> listContactMemberIds(Page page, Integer ownId) {
+        //查询tmp表获取联系人
+        List<TmpContact> list = iTmpContactDao.listByPage(page, ownId);
+//        List<Member> list =null;// memberDao.listContactMemberIds(page, memberId);
         return list;
     }
 
@@ -500,14 +507,14 @@ public class MemberServiceImpl implements IMemberService {
      */
     @Override
     public ResponseModel<Member> listContactMembers(Page page, Integer memberId) {
-        List<Member> memberIdList = this.listContactMemberIds(page,memberId);
+        List<TmpContact> tmpContactList = this.listContactMemberIds(page,memberId);
         List<Member> list = new ArrayList<>();
-        if(memberIdList.size() > 0){
+        if(tmpContactList.size() > 0){
             List<Integer> idList = new ArrayList<>();
             String idString = "";
-            for (Member member : memberIdList){
-                idList.add(member.getId());
-                idString += member.getId() + ",";
+            for (TmpContact member : tmpContactList){
+                idList.add(member.getContactId());
+                idString += member.getContactId() + ",";
             }
             if (idString.length() > 0){
                 idString = idString.substring(0,idString.length()-1);

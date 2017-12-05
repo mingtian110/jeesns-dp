@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luntan.deppon.dao.member.ITmpContactDao">
+    <resultMap id="RemberResult" type="TmpContact">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="own_id" jdbcType="INTEGER" property="ownId"/>
+        <result column="contact_id" jdbcType="INTEGER" property="contactId"/>
+        <result column="contact_type" jdbcType="VARCHAR" property="contactType"/>
+    </resultMap>
+    <!-- 插入关联 -->
+    <insert id="insert" parameterType="TmpContact" keyProperty="id" useGeneratedKeys="true">
+        insert into tbl_tmp_contact ( own_id, contact_id,contact_type)
+        values (#{ownId}, #{contactId},#{contactType})
+    </insert>
+    <!-- 删除关联 -->
+    <delete id="delete" parameterType="TmpContact">
+        delete from tbl_tmp_contact where own_id = #{ownId} and contact_id=#{contactId} and contact_type=#{contactType}
+    </delete>
+    <select id="select" parameterType="TmpContact" resultMap="RemberResult">
+        SELECT  *  from tbl_tmp_contact where own_id = #{ownId} and contact_id=#{contactId}  and contact_type=#{contactType}
+    </select>
+
+    <!-- 分页关联 -->
+    <select id="listByPage" resultMap="RemberResult">
+        select
+        * from tbl_tmp_contact a
+        <where>
+            <if test="ownId != null and ownId != ''">
+                and a.own_id=#{ownId}
+            </if>
+        </where>
+        order by a.id DESC
+    </select>
+    <!--join sql剔除-->
+</mapper>
