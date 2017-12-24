@@ -188,7 +188,7 @@ public class MessageServiceImpl implements IMessageService {
         }
         Result<String> stringResult = billMessageService.sendMessage(findMember.getPhone(), content);
         if(stringResult.isSuccess()) {
-            return new ResponseModel(0, "信息发送成功");
+            return new ResponseModel(0, "短信已发送至:"+findMember.getPhone());
         }else {
             return new ResponseModel(-1, "测试环境信息发送失败");
         }

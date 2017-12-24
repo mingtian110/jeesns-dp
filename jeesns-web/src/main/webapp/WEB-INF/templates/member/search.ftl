@@ -32,9 +32,9 @@
         <div class="row">
             <div class="col-md-12 white-bg m-b-10">
                 <div class="content-wrapper">
-                    <section class="content-header">
-                        <h1>会员列表(${model.page.totalCount})</h1>
-                    </section>
+                    <#--<section class="content-header">-->
+                        <#--<h1>会员列表(${model.page.totalCount})</h1>-->
+                    <#--</section>-->
                     <section class="content">
                         <div class="row">
                                 <div class="col-md-4 float-left">

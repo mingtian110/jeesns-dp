@@ -11,14 +11,14 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li id="sy"><a id="sya"href="${basePath}/">首页</a></li>
-                <li id="wz"><a id="wza" href="${basePath}/article/list">文章</a></li>
-                <li id="gc"><a id="gca"href="${basePath}/weibo/list">广场</a></li>
-                <li id="qz"><a id="qza" href="${basePath}/group/">${GROUP_ALIAS}</a></li>
-                <li id="dt"><a id="dta" href="${basePath}/action/list">动态</a></li>
-                <li id="tz"><a id="tza" href="${basePath}/group/topicList">帖子</a></li>
-                <li id="sx"><a id="sxa" href="${basePath}/member/message">私信 &nbsp;<#if unReadMessageNum &gt; 0><i class="fa icon-comments"></i></#if>
-                <li id="zr"><a id="zra" href="${basePath}/member/search">找人</a></li>
+                <li id="sy"><a id="sya"href="${basePath}/" style="font-size: medium"><i class="icon-home main-text-color" style="vertical-align: middle"></i>&nbsp;首页</a></li>
+                <li id="wz"><a id="wza" href="${basePath}/article/list" style="font-size: medium"><i class="icon-list main-text-color"style="vertical-align: middle"></i>&nbsp; 文章</a></li>
+                <li id="gc"><a id="gca"href="${basePath}/weibo/list" style="font-size: medium"><i class="icon-compass  main-text-color" style="vertical-align: middle"></i>&nbsp;广场</a></li>
+                <li id="qz"><a id="qza" href="${basePath}/group/" style="font-size: medium"><i class="icon-stack  main-text-color" style="vertical-align: middle"></i>&nbsp;${GROUP_ALIAS}</a></li>
+                <li id="dt"><a id="dta" href="${basePath}/action/list" style="font-size: medium"><i class="icon-plane main-text-color" style="vertical-align: middle"></i>&nbsp;动态</a></li>
+                <li id="tz"><a id="tza" href="${basePath}/group/topicList" style="font-size: medium"><i class="icon-tags  main-text-color" style="vertical-align: middle"></i>&nbsp;帖子</a></li>
+                <li id="sx"><a id="sxa" href="${basePath}/member/message" style="font-size: medium"><i class="icon-envelope main-text-color" style="vertical-align: middle"></i>&nbsp;私信 &nbsp;<#if unReadMessageNum &gt; 0><i class="fa icon-comments"></i></#if>
+                <li id="zr"><a id="zra" href="${basePath}/member/search" style="font-size: medium"><i class="icon-search main-text-color" style="vertical-align: middle"></i>&nbsp;找人</a></li>
             </ul>
             <ul class="nav navbar-top-links navbar-right">
                 <div class="nav navbar-nav navbar-nav-right">

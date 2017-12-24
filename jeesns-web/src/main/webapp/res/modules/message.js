@@ -67,6 +67,13 @@ function getMessageRecords(member_id,member_name) {
     memberName = member_name;
     messageRecords(1,1)
 }
+
+function sendMsgBefore(member_id,member_name) {
+    if(confirm("确定发送短信提醒他(她)?")){
+        sendMsg(member_id,member_name);
+    }
+}
+
 function sendMsg(member_id,member_name) {
     if(member_id != memberid){
         $(".chat-discussion-content").html("");
@@ -99,6 +106,11 @@ function sendMsg(member_id,member_name) {
             }
         }
     });
+}
+function deleteContactBefore(member_id,member_name) {
+    if(confirm("确定删除该聊天记录?")){
+        deleteContact(member_id,member_name);
+    }
 }
 function deleteContact(member_id,member_name) {
     if(member_id != memberid){
@@ -470,9 +482,13 @@ function listContactMembers(autoRefresh) {
                     html += "<img class=\"chat-avatar\" src=\"" +uploadCubcPath+ base +member.avatar+"\">";
                     html += "<div class=\"chat-user-name\">";
                     html += "<a href=\"javascript:void(0)\" onclick=\"getMessageRecords("+member.id+",'"+member.name+"')\" class=\"message-user-name\" data='"+member.id+"'>"+member.name+ unreadNumHtml + "</a>";
-                    html += "<a href=\"javascript:void(0)\" onclick=\"sendMsg("+member.id+",'"+member.name+"')\" class=\"message-user-name\" data='"+member.id+"' style='color: #00a0e9'> 提醒</a>"
-                    html += "<a href=\"javascript:void(0)\" onclick=\"deleteContact("+member.id+",'"+member.name+"')\" class=\"message-user-name\" data='"+member.id
-                        +"' style='color: #00a0e9'>&nbsp;<i class=\"icon-minus\" ></i></a>"
+                    html += "<a href=\"javascript:void(0)\" onclick=\"sendMsgBefore("+member.id+",'"+member.name+"')\" class=\"message-user-name\" data='"+member.id+"' style='color: #00a0e9'> 提醒</a>"
+                    if(unreadNum > 0){//有未读消息无法删除
+
+                    }else{
+                        html += "<a href=\"javascript:void(0)\" onclick=\"deleteContactBefore("+member.id+",'"+member.name+"')\" class=\"message-user-name\" data='"+member.id
+                            +"' style='color: #00a0e9'>&nbsp;<i class=\"icon-minus\" ></i></a>"
+                    }
                     html += "</div></div>";
                 }
                 if(autoRefresh == 1){

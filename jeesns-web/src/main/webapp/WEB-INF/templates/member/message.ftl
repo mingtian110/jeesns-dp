@@ -29,6 +29,7 @@
     <script src="${basePath}/res/common/js/jeesns.js"></script>
     <script type="text/javascript" src="${basePath}/res/plugins/wangeditor/wangEditor.js"></script>
     <script src="${basePath}/res/plugins/gallery/js/jquery.blueimp-gallery.min.js"></script>
+    <script src="${basePath}/res/plugins/jquery-confirm.js"></script>
 
     <script type="text/javascript">
         var basePath = "${basePath}";
@@ -49,7 +50,7 @@
                 <div class="ibox chat-view">
                     <div class="ibox-title">
                         <small class="pull-right text-muted" id="user-name"></small>
-                        <a id="refreshMessage"target="_parent" href="${basePath}/member/message?mid=0">私信</a>(如对方长时间不回复,可点击提醒发送短信给对方,每日短信限量三条,请谨慎使用)
+                    <#--<a id="refreshMessage"target="_parent" href="${basePath}/member/message?mid=0">私信</a>--><i class="icon-hand-right main-text-color "></i>(如对方长时间不回复,可点击提醒发送短信给对方,每日短信限量三条,请谨慎使用)
 
                     </div>
                     <div class="ibox-content">
@@ -76,7 +77,9 @@
                                     <div class="chat-discussion-content">
 
                                     </div>
-                                    <div class="no-message">暂无聊天记录</div>
+                                    <div class="no-message">
+                                        <i class="icon-5x icon-cubes main-text-color" ></i>
+                                        <br/>暂无聊天记录...</div>
                                 </div>
                                 <div class="send-message-area">
                                     <div id="div1" class="toolbar">
@@ -85,7 +88,7 @@
                                     </div>
                                     <textarea class="form-control message-input" name="content" id="content"
                                               placeholder="可以快捷键复制粘贴图片"></textarea>
-                                    <button class="btn btn-info pull-right sendMessage" id="wangSend">enter键可发送</button>
+                                    <button class="btn btn-info pull-right sendMessage" id="wangSend">发送</button>
                                 </div>
                             </div>
                         </div>

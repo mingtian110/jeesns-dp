@@ -78,6 +78,13 @@
                 </#list>
                 </ul>
             </div>
+            <div class="panel-body friend-link">
+                <ul>
+                <#list linkModel.data as link>
+                    <li><i class="icon-spin icon-star main-text-color"></i></li>
+                </#list>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="col-md-12">

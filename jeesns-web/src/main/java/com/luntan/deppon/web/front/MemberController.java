@@ -1,6 +1,7 @@
 package com.luntan.deppon.web.front;
 
 import com.alibaba.fastjson.JSONObject;
+import com.deppon.cubc.commons.util.MD5Util;
 import com.deppon.dpap.module.zookeeper.server.service.impl.ZooKeeperConfig;
 import com.luntan.deppon.common.utils.ActionUtil;
 import com.luntan.deppon.common.utils.MemberUtil;
@@ -83,15 +84,29 @@ public class MemberController extends BaseController {
             return MEMBER_FTL_PATH + "/login";
         }
         String[] split = jeedata.split(" ");
-        String id = split[0];
-        String code = split[1];
-        String name = split[2];
+        String id=split[0];
+        String code=split[1];
+        String name=split[2];
         String password=split[3];
         String deptName=split[4];
-        String forObject = (String) restTemplate.getForObject(url+"/cubc/getjeeCodeById?id=" + id, String.class);
-        logger.error("return value:"+forObject);
-        logger.error("code:"+code);
-        if(!forObject.equals(code)){
+        String phone=split[5];
+        String position=split[6];
+        String deptCode=split[7];
+        String encode=split[8];
+
+        //code处理
+        int length = code.length();
+        String tmpCode="";
+        String empCode="";
+        for(int i=0;i<length;){
+            String empCodeSub = code.substring(i, i + 1);
+            empCode=empCode+empCodeSub;
+            String tmpCodeSub=code.substring(i+1, i + 2);
+            tmpCode=tmpCode+tmpCodeSub;
+            i=i+2;
+        }
+        String jeeencode = MD5Util.md5(tmpCode);
+        if(!jeeencode.equals(encode)){
             model.addAttribute("redirectUrl",redirectUrl);
             return MEMBER_FTL_PATH + "/login";
         }
@@ -129,13 +144,23 @@ public class MemberController extends BaseController {
         String phone=split[5];
         String position=split[6];
         String deptCode=split[7];
+        String encode=split[8];
         Map<String, String> config = configService.getConfigToMap();
         if ("0".equals(config.get(ConfigUtil.MEMBER_REGISTER_OPEN))) {
             return new ResponseModel(-1, "注册功能已关闭");
         }
-        String forObject =(String) restTemplate.getForObject(url+"/cubc/getjeeCodeById?id=" + id,String.class);
-        String data =forObject;
-        if(!data.equals(code)){
+        String tmpCode="";
+        String empCode="";
+        int length = code.length();
+        for(int i=0;i<length;){
+            String empCodeSub = code.substring(i, i + 1);
+            empCode=empCode+empCodeSub;
+            String tmpCodeSub=code.substring(i+1, i + 2);
+            tmpCode=tmpCode+tmpCodeSub;
+            i=i+2;
+        }
+        String jeeencode = MD5Util.md5(tmpCode);
+        if(!jeeencode.equals(encode)){
             return new ResponseModel(-1, "错误");
         }
         String afterUserName=name/*+"-"+deptName*/;
@@ -176,7 +201,6 @@ public class MemberController extends BaseController {
             responseModel.setUrl(redirectUrl);
         }
         responseModel.setMessage(request.getSession().getId());
-//        return responseModel;
         return new ResponseModel(2, "跳转成功", request.getServletContext().getContextPath() + "/member/login");
     }
     @RequestMapping(value = "/loginFor",method = RequestMethod.GET)
@@ -591,6 +615,9 @@ public class MemberController extends BaseController {
         Member findMember= memberService.findById(memberId);
         if(findMember == null){
             return new ResponseModel(-1,"会员不存在");
+        }
+        if((loginMember.getId()+"").equals(memberId+"")){
+            return new ResponseModel(-1,"不能给自己发短信");
         }
         //当天发送量
         HashMap<String,Integer> msgCount = (HashMap<String,Integer> )request.getSession().getAttribute("msgCount");
