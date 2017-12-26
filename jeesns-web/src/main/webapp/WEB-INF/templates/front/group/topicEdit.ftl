@@ -81,7 +81,7 @@
                                 </div>
                                 <div id="div2" class="text">
                                 </div>
-                                <textarea class="form-control message-input" cols="80"  rows="10" name="content" id="content" placeholder="可以快捷键复制粘贴图片"></textarea>
+                                <textarea class="form-control message-input" cols="80"  rows="10" name="content" id="content" placeholder="可以快捷键复制粘贴图片">${groupTopic.content}</textarea>
                                 <#--<textarea class="ckeditor" cols="80" id="content" name="content" rows="3">${groupTopic.content}</textarea>-->
                         </div>
                     </div>
@@ -134,7 +134,7 @@
         $content.val(html)
     }
     editor.create();
-    editor.txt.html('${groupTopic.content}<br/>');
+    editor.txt.html($("#content").val());
     $(".w-e-text").click();
     $("#content").hide();
 </script>
