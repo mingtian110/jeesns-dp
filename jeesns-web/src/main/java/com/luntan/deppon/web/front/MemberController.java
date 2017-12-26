@@ -164,18 +164,18 @@ public class MemberController extends BaseController {
             return new ResponseModel(-1, "错误");
         }
         String afterUserName=name/*+"-"+deptName*/;
-        String afterEmail=code+"@deppon.com";
+        String afterEmail=empCode+"@deppon.com";
         //登录内容:工号-姓名-密码(需解密)-邮箱:工号@deppon.com
         Member member=new Member();
         member.setName(afterUserName);
         member.setPassword(password);
         member.setEmail(afterEmail);
-        member.setIntroduce(code);
+        member.setIntroduce(empCode);
         member.setPhone(phone);
         member.setPositions(position);
         member.setDeptCode(deptCode);
         member.setDeptName(deptName);
-        member.setCode(code);
+        member.setCode(empCode);
         /**
          * 查询是否已存在
          */

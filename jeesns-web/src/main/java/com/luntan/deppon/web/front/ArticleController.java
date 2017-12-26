@@ -127,6 +127,12 @@ public class ArticleController extends BaseController {
         if(article.getMemberId().intValue() != loginMember.getId().intValue()){
             return jeesnsConfig.getFrontTemplate() + ErrorUtil.error(model,-1001,Const.INDEX_ERROR_FTL_PATH);
         }
+        //移除<p> </p>
+        String content = article.getContent();
+        content=content.replace("<p>","");
+        content=content.replace("</p>","");
+        content=content.replace("&lt;style&gt;","");
+        article.setContent(content);
         model.addAttribute("article",article);
         List<ArticleCate> cateList = articleCateService.list();
         model.addAttribute("cateList",cateList);

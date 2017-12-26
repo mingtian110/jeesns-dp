@@ -91,7 +91,7 @@
                             </div>
                             <div id="div2" class="text">
                             </div>
-                            <textarea class="form-control message-input" cols="80"  rows="10" name="content" id="content" placeholder="可以快捷键复制粘贴图片"></textarea>
+                            <textarea class="form-control message-input" cols="80"  rows="10" name="content" id="content" placeholder="可以快捷键复制粘贴图片">${article.content}</textarea>
                             <#--<textarea class="ckeditor" cols="80" id="content" name="content" rows="5">${article.content}</textarea>-->
                         </div>
                     </div>
@@ -144,9 +144,13 @@
         $content.val(html)
     }
     editor.create();
-    editor.txt.append('${article.content}<br/>');
+    <#--var content="\${article.content}";-->
+    <#--content=content.replace(/<p>/g, "a");-->
+    <#--content=content.replace(/<\/p>/g, "a");-->
+    <#--editor.txt.append('${article.content}<br/>');-->
     $(".w-e-text").click();
     $("#content").hide();
+    editor.txt.append($("#content").val());
 </script>
 </body>
 </html>
