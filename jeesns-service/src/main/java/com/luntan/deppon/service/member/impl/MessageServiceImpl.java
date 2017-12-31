@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class MessageServiceImpl implements IMessageService {
     @Autowired(required = false)
     ITmpContactDao iTmpContactDao;
     @Override
-    public ResponseModel save(Integer fromMemberId, Integer toMemberId, String content) {
+    public ResponseModel save(Integer fromMemberId, Integer toMemberId, String content,HttpServletRequest request) {
         if(fromMemberId.intValue() == toMemberId.intValue()){
             return new ResponseModel(-1, "不能发信息给自己");
         }
@@ -45,6 +46,8 @@ public class MessageServiceImpl implements IMessageService {
         message.setFromMemberId(fromMemberId);
         message.setToMemberId(toMemberId);
         message.setContent(content);
+        request.getServletContext().setAttribute(toMemberId+"_note",true);
+        request.getServletContext().setAttribute(toMemberId+"_remind",true);
         int save=0;
         try{
              save = messageDao.save(message);
@@ -83,16 +86,23 @@ public class MessageServiceImpl implements IMessageService {
     @Autowired(required = false)
     private IMemberDao memberDao;
     @Override
-    public ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId, HttpServletRequest request) {
+    public ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId, HttpServletRequest request,String flag) {
+        Boolean attribute = (Boolean)request.getServletContext().getAttribute(toMemberId + "_note");
+        if("1".equals(flag)&&(attribute==null||!attribute)){
+            ResponseModel model = new ResponseModel(0, page);
+            model.setData(new ArrayList());
+            model.setMessage("无新消息");
+            return model;
+        }
         //设置该会员聊天记录为已读
         int i = this.setRead(fromMemberId, toMemberId);
+        ResponseModel model = new ResponseModel(0, page);
         //如果有更新,则发信人有消息变动提示 发信人读取导通知后就更新状态为已无消息
         if(i>0){
-            request.getServletContext().setAttribute("note-"+fromMemberId,true);
+            request.getServletContext().setAttribute(fromMemberId+"_note",true);
         }
-//        List<Message> list = messageDao.messageRecords(page, fromMemberId, toMemberId);
+        request.getServletContext().setAttribute( toMemberId+"_note",false);
         List<Message> list = messageDao.messageRecordsByTmpContact(page, fromMemberId, toMemberId);
-        //1.查message  2.赋值member
         Member   fromMember = memberDao.findById(fromMemberId);
         Member   toMember = memberDao.findById(toMemberId);
         for(Message item:list){
@@ -105,20 +115,9 @@ public class MessageServiceImpl implements IMessageService {
                 item.setToMember(fromMember);
             }
         }
-        ResponseModel model = new ResponseModel(0, page);
+        model.setCode(1);
         model.setData(list);
-        Boolean note = (Boolean)request.getServletContext().getAttribute("note-" + toMemberId);
-        logger.error("note-" + fromMemberId+":"+note);
-        if(note==null){
-            note=false;
-        }
-        if(i>0||note) {
-            model.setCode(1);
-            request.getServletContext().setAttribute("note-" + toMemberId,false);
-        }else{
-            model.setCode(0);
-        }
-//        model.setMessage("有新消息");
+        model.setMessage("有新消息");
         return model;
     }
     @Override

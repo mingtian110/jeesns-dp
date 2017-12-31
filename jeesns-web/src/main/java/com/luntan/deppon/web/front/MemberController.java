@@ -2,6 +2,7 @@ package com.luntan.deppon.web.front;
 
 import com.alibaba.fastjson.JSONObject;
 import com.deppon.cubc.commons.util.MD5Util;
+import com.deppon.cubc.schedule.common.Result;
 import com.deppon.dpap.module.zookeeper.server.service.impl.ZooKeeperConfig;
 import com.luntan.deppon.common.utils.ActionUtil;
 import com.luntan.deppon.common.utils.MemberUtil;
@@ -521,20 +522,20 @@ public class MemberController extends BaseController {
      * @param memberId
      * @return
      */
-    @RequestMapping(value = "/messageRecords/{memberId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/messageRecords/{memberId}/{flag}",method = RequestMethod.GET)
     @ResponseBody
-    public Object messageRecords(@PathVariable("memberId") Integer memberId){
+    public Object messageRecords(@PathVariable("memberId") Integer memberId,@PathVariable("flag") String flag){
         Page page = new Page(request);
         Member loginMember = MemberUtil.getLoginMember(request);
         if (loginMember != null){
             //获取聊天记录
-            ResponseModel messageRecords = messageService.messageRecords(page, memberId, loginMember.getId(),request);
+            ResponseModel messageRecords = messageService.messageRecords(page, memberId, loginMember.getId(),request,flag);
             return messageRecords;
         }
         return null;
     }
     /**
-     * 获取聊天记录
+     * 删除聊天记录
      * @param memberId
      * @return
      */
@@ -573,6 +574,25 @@ public class MemberController extends BaseController {
         model.addAttribute("member", findMember);
         return MEMBER_FTL_PATH + "sendMessageBox";
     }
+    /**
+     * 查询是否有新消息
+     */
+    @RequestMapping(value = "/haveMsg",method = RequestMethod.GET)
+    @Before(UserLoginInterceptor.class)
+    @ResponseBody
+    public Result<String> haveMsg(){
+        Result<String> result=new Result();
+        Member loginMember = MemberUtil.getLoginMember(request);
+        Boolean  attribute =(Boolean) request.getServletContext().getAttribute(loginMember.getId() + "_remind");
+        if(attribute==null||attribute==false){
+            result.setData("0");
+        }else{
+            request.getServletContext().setAttribute(loginMember.getId() + "_remind",false);
+            result.setData("1");
+        }
+        return result;
+    }
+
 
     /**
      * 发送信息
@@ -594,7 +614,7 @@ public class MemberController extends BaseController {
         if(findMember == null){
             return new ResponseModel(-1,"会员不存在");
         }
-        return messageService.save(loginMember.getId(), memberId, content);
+        return messageService.save(loginMember.getId(), memberId, content,request);
     }
     /**
      * 发送信息

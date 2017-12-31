@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface IMessageService {
 
-    ResponseModel save(Integer fromMemberId, Integer toMemberId, String content);
+    ResponseModel save(Integer fromMemberId, Integer toMemberId, String content,HttpServletRequest request);
     ResponseModel sendMsg(Member loginMember,Member findMember);
 
     ResponseModel<Message> listByPage(Page page, Integer fromMemberId, Integer toMemberId);
 
-    ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId, HttpServletRequest request);
+    ResponseModel<Message> messageRecords(Page page, Integer fromMemberId, Integer toMemberId, HttpServletRequest request,String flag);
     ResponseModel<Message> messageRecordsDelete(Page page, Integer messageId, Integer toMemberId);
 
     /**

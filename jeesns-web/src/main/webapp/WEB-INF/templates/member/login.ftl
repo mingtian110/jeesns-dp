@@ -50,8 +50,8 @@
                 <p></p>
                 <p class="text-muted text-center">
                     <a href="http://cubc.deppon.com">使用CUBC密码登陆</a>
-                    <#--<a href="forgetpwd">忘记密码?</a> |-->
-                    <#--<a href="register">我要注册</a>-->
+                <#--<a href="forgetpwd">忘记密码?</a> |-->
+                <#--<a href="register">我要注册</a>-->
                 </p>
             </div>
         </div>

@@ -38,8 +38,9 @@
                                 <div class="item-content">
                                     <div class="media pull-left">
                                         <a href="${basePath}/u/${topic.member.id}">
-                                        <img src="${uploadCubcPath}${basePath}${topic.member.avatar}" class="img-circle"
-                                             alt="${topic.member.name}" width="50px" height="50px">
+                                            <img src="${uploadCubcPath}${basePath}${topic.member.avatar}"
+                                                 class="img-circle"
+                                                 alt="${topic.member.name}" width="50px" height="50px">
                                         </a>
                                     </div>
                                     <div class="text">
@@ -48,12 +49,16 @@
                                         </p>
                                         <p>
                                             <a href="${basePath}/group/topic/${topic.id}" class="text-muted"><i
-                                                    class="icon-eye-open" style="color: #00a7d0"></i> ${topic.viewCount}</a> &nbsp;
-                                            <span class="text-muted">${topic.createTime?string('yyyy-MM-dd HH:mm')} <i class="icon-heart" style="color: crimson">${topic.favor}</i></span>
-                                            <a href="${basePath}/group/audit/${topic.id}" class="btn-link" target="_jeesnsLink" confirm="确定审核通过该帖子吗？">
+                                                    class="icon-eye-open" style="color: #00a7d0"></i> ${topic.viewCount}
+                                            </a> &nbsp;
+                                            <span class="text-muted">${topic.createTime?string('yyyy-MM-dd HH:mm')} <i
+                                                    class="icon-heart" style="color: crimson">${topic.favor}</i></span>
+                                            <a href="${basePath}/group/audit/${topic.id}" class="btn-link"
+                                               target="_jeesnsLink" confirm="确定审核通过该帖子吗？">
                                                 <span class="label label-badge label-info">审核</span>
                                             </a>
-                                            <a href="${basePath}/group/delete/${topic.id}" class="btn-link" target="_jeesnsLink" confirm="确定要删除该帖子吗？">
+                                            <a href="${basePath}/group/delete/${topic.id}" class="btn-link"
+                                               target="_jeesnsLink" confirm="确定要删除该帖子吗？">
                                                 <span class="label label-badge label-danger">删除</span>
                                             </a>
                                         </p>
@@ -70,7 +75,8 @@
                 <div class="group white-bg">
                     <div class="group-logo">
                         <a href="${basePath}/group/detail/${group.id}">
-                            <img alt="${group.name}" src="${uploadCubcPath}${basePath}${group.logo}" width="80px" height="80px"/>
+                            <img alt="${group.name}" src="${uploadCubcPath}${basePath}${group.logo}" width="80px"
+                                 height="80px"/>
                         </a>
                     </div>
                     <div class="group-detail">

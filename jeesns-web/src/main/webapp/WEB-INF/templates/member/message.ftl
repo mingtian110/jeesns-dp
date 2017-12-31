@@ -39,6 +39,7 @@
         var uploadCubcPath = "${uploadCubcPath}";
     </script>
     <script src="${basePath}/res/modules/message.js"></script>
+    <script src="${basePath}/res/modules/yanue.pop.js"></script>
 </head>
 <body class="gray-bg">
 <#include "/member/common/header.ftl"/>
@@ -50,7 +51,8 @@
                 <div class="ibox chat-view">
                     <div class="ibox-title">
                         <small class="pull-right text-muted" id="user-name"></small>
-                    <#--<a id="refreshMessage"target="_parent" href="${basePath}/member/message?mid=0">私信</a>--><i class="icon-hand-right main-text-color "></i>(如对方长时间不回复,可点击提醒发送短信给对方,每日短信限量三条,请谨慎使用)
+                    <#--<a id="refreshMessage"target="_parent" href="${basePath}/member/message?mid=0">私信</a>-->
+                        <i class="icon-hand-right main-text-color "></i>(如对方长时间不回复,可点击提醒发送短信给对方,每日短信限量三条,请谨慎使用)
 
                     </div>
                     <div class="ibox-content">
@@ -78,8 +80,9 @@
 
                                     </div>
                                     <div class="no-message">
-                                        <i class="icon-5x icon-cubes main-text-color" ></i>
-                                        <br/>暂无聊天记录...</div>
+                                        <i class="icon-5x icon-cubes main-text-color"></i>
+                                        <br/>暂无聊天记录...
+                                    </div>
                                 </div>
                                 <div class="send-message-area">
                                     <div id="div1" class="toolbar">
@@ -99,20 +102,39 @@
     </div>
 </div>
 <#--</div>-->
-<#include "/member/common/footer.ftl"/>
+<#include "/member/common/footerForMessage.ftl"/>
 <script type="text/javascript">
-    function bbimg(o){
-        var zoom=parseInt(o.style.zoom, 10)||100;zoom+=event.wheelDelta/12;if (zoom>0) o.style.zoom=zoom+'%';
+//    setInterval(function () {
+//        $.ajax({
+//            type: "GET",
+//            async: false,
+//            url: base + "/member/haveMsg",
+//            dataType:"json",
+//            success: function (result) {
+//                if (result.data=="0") {
+//
+//                } else {
+//                    var pop = new Pop("您好",
+//                            base + "/member/message",
+//                            "您有新消息,请点击私信查阅");
+//                }
+//            },
+//            error: function () {
+//            }
+//        });
+//    }, 3000);
+    function bbimg(o) {
+        var zoom = parseInt(o.style.zoom, 10) || 100;
+        zoom += event.wheelDelta / 12;
+        if (zoom > 0) o.style.zoom = zoom + '%';
         return false;
     }
     $(".navbar").css("padding-top", "0px")
-//    $("#sx").addClass("active")
-//    $("#sxa").css("border-radius", "25px")
     $("#sxa").css("color", "#fff")
     var E = window.wangEditor;
     var editor = new E('#div1', '#div2');
     // 为当前的editor配置密钥
-//    editor.customConfig.mapAk = 'P5aSDyfWZhDlROBVyqzoozFlIS9FCoee';
+    //    editor.customConfig.mapAk = 'P5aSDyfWZhDlROBVyqzoozFlIS9FCoee';
     editor.customConfig.uploadImgServer = "${basePath}/uploadWangEditorImage";
     editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
     editor.customConfig.uploadImgMaxLength = 5
@@ -122,24 +144,24 @@
     editor.customConfig.menus =
             [
                 'head',  // 标题
-                'bold',  // 粗体
-                'italic',  // 斜体
-                'underline',  // 下划线
-                'strikeThrough',  // 删除线
-                'foreColor',  // 文字颜色
-                'backColor',  // 背景颜色
-                'link',  // 插入链接
-                'list',  // 列表
-                'justify',  // 对齐方式
-                'quote',  // 引用
-                'image',  // 插入图片
-                'emotion',
-                'table',  // 表格
-                'video',  // 插入视频
-                'code',  // 插入代码
-                'undo',  // 撤销
-                'redo'  // 重复
-            ]
+//                'bold',  // 粗体
+//                'italic',  // 斜体
+//                'underline',  // 下划线
+//                'strikeThrough',  // 删除线
+        'foreColor',  // 文字颜色
+//                'backColor',  // 背景颜色
+        'link',  // 插入链接
+//                'list',  // 列表
+//                'justify',  // 对齐方式
+//                'quote',  // 引用
+        'image',  // 插入图片
+//                'emotion',
+        'table',  // 表格
+        'video',  // 插入视频
+        'code',  // 插入代码
+        'undo',  // 撤销
+        'redo'  // 重复
+    ]
     document.getElementById('wangSend').addEventListener('click', function () {
         editor.txt.clear()
     })
@@ -161,11 +183,11 @@
         var keyCode = e.which ? e.which : e.keyCode;
         // console.log(keyCode);
         if (keyCode == 13) {
-            if(memberid == -1){
+            if (memberid == -1) {
                 jeesnsDialog.errorTips("请先选择发送的对象");
                 return;
             }
-            var content =$("#content").val();
+            var content = $("#content").val();
             if (content == "") {
                 jeesnsDialog.errorTips("请输入私信内容");
                 return;
@@ -174,7 +196,7 @@
                 url: base + "/member/sendMessage",
                 type: "post",
                 data: {
-                    memberId:memberid,
+                    memberId: memberid,
                     content: content
                 },
                 cache: false,
@@ -191,7 +213,7 @@
                     jeesnsDialog.close(index);
                     if (res.code == 0) {
                         jeesnsDialog.successTips(res.message);
-                        messageRecords(1,1);
+                        messageRecords(1, 1);
                     } else {
                         jeesnsDialog.errorTips(res.message);
                     }

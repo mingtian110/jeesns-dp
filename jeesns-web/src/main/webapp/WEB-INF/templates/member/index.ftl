@@ -52,7 +52,7 @@
                         </#if>
                         </div>
                         <p>${loginUser.website}</p>
-                        <p>${loginUser.introduce}</p>
+                        <p><i class="icon-spin icon-star main-text-color"></i>说明:${loginUser.introduce}</p>
                         <p class="operator">
                             <a class="btn btn-info btn-outline member-follows" href="${basePath}/member/editInfo">
                                 <i class="fa fa-edit"></i> 编辑个人资料

@@ -18,7 +18,7 @@
                             <li id="qz"><a id="qza" href="${basePath}/group/" style="font-size: medium"><i class="icon-stack  main-text-color" style="vertical-align: middle;color: #0499e2"></i>&nbsp;${GROUP_ALIAS}</a></li>
                             <li id="dt"><a id="dta" href="${basePath}/action/list" style="font-size: medium"><i class="icon-plane main-text-color" style="vertical-align: middle;color: #0499e2"></i>&nbsp;动态</a></li>
                             <li id="tz"><a id="tza" href="${basePath}/group/topicList" style="font-size: medium"><i class="icon-tags  main-text-color" style="vertical-align: middle;color: #0499e2"></i>&nbsp;帖子</a></li>
-                            <li id="sx"><a id="sxa" href="${basePath}/member/message" style="font-size: medium"><i class="icon-envelope maizzzzzzzzzn-text-color" style="vertical-align: middle;color: #0499e2"></i>&nbsp;私信 &nbsp;<#if unReadMessageNum &gt; 0><i class="fa icon-comments"></i></#if>
+                            <li id="sx"><a id="sxa" href="${basePath}/member/message" style="font-size: medium"><i class="icon-envelope main-text-color" style="vertical-align: middle;color: #0499e2"></i>&nbsp;私信 </a></li>
                             <li id="zr"><a id="zra" href="${basePath}/member/search" style="font-size: medium"><i class="icon-search main-text-color" style="vertical-align: middle;color: #0499e2"></i>&nbsp;找人</a></li>
 
                             <#--<li id="sy">-->
@@ -64,13 +64,12 @@
                                 <li><a href="${basePath}/member/register">注册</a></li>
                             <#else>
                                 <div class="btn-group nav-username">
-                                    <img src="${uploadCubcPath}${basePath}${loginUser.avatar}" class="img-circle" width="25px" height="25px" style="margin-top: 1px;margin-right:5px;"/>
-                                    <a class="header-action-link" href="javascript:void(0)">
+                                    <a href="/member/" style="background: #393D49;" ><img src="${uploadCubcPath}${basePath}${loginUser.avatar}" class="img-circle" width="25px" height="25px" style="margin-top: 1px;margin-right:5px;"/></a>
+                                    <a class="header-action-link" href="/member/" style="background: #393D49;">
                                     ${loginUser.name}
                                         <#--<#if unReadMessageNum &gt; 0><i class="fa fa-comments"></i></#if>-->
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="${basePath}/member/">个人中心</a></li>
                                         <li><a href="${basePath}/member/editInfo">设置</a></li>
                                         <#if loginUser?? && loginUser.isAdmin &gt; 0>
                                             <li><a href="${managePath}/" target="_blank">管理</a></li>
@@ -86,6 +85,9 @@
                                                 $(this).removeClass("open");
                                             });
                                         })
+
+
+
                                     </script>
                                 </div>
                             </#if>

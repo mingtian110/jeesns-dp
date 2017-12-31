@@ -40,26 +40,29 @@
                     </div>
                     <div class="form-group">
                         邮箱
-                        <input type="email" name="email" class="form-control" placeholder="邮箱" data-type="require,email">
+                        <input type="email" name="email" class="form-control" placeholder="邮箱"
+                               data-type="require,email">
                     </div>
                     <div class="form-group">
                         密码
-                        <input type="password" id="password" name="password" class="form-control" placeholder="密码" data-type="require">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="密码"
+                               data-type="require">
                     </div>
                     <div class="form-group">
                         确认密码
-                        <input type="password" name="repassword" class="form-control" placeholder="确认密码" data-type="require" data-rule="equal[password]">
+                        <input type="password" name="repassword" class="form-control" placeholder="确认密码"
+                               data-type="require" data-rule="equal[password]">
                     </div>
                     <button type="submit" class="btn btn-primary block full-width m-b">注册</button>
                     <p></p>
                     <p class="text-muted text-center">
-                    <a href="forgetpwd">忘记密码?</a> |
-                    <a href="login">我要登录</a>
-                    </div>
-                </form>
+                        <a href="forgetpwd">忘记密码?</a> |
+                        <a href="login">我要登录</a>
             </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 <#include "/member/common/footer.ftl"/>
