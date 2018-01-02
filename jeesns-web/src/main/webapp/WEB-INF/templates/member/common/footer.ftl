@@ -115,18 +115,61 @@
 </div>
 <script src="${basePath}/res/modules/yanue.pop.js"></script>
 <script type="text/javascript">
+    var msg = "您好,您有新消息,请及时查阅...."
+    var titAn = function () {
+        var isHidden = document.hidden;
+        if (isHidden) {
+            var name = "${loginUser.name}"
+            console.log(name)
+            if (name == "") {
+
+            } else {
+                msg = msg.substring(1, msg.length) + msg.substring(0, 1);
+                document.title =name+msg;
+            }
+        }
+    };
+    setInterval(function () {
+        //当窗口效果为最小化，或者没焦点状态下才闪动
+        var isHidden = document.hidden;
+        console.log(isHidden)
+        if (isHidden) {
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: "/member/haveMsg",
+                dataType: "json",
+                success: function (result) {
+                    if (result.data == "0") {
+
+                    } else {
+                        setInterval(function () {
+                            titAn()
+                        }, 999);
+                    }
+                },
+                error: function () {
+                    return
+                }
+            });
+        }
+        else {
+            console.log("获取焦点")
+            document.title = '${SITE_NAME} - Powered By cubc-luntan';//窗口没有消息的时候默认的title内容
+        }
+    }, 1000);
     setInterval(function () {
         $.ajax({
             type: "GET",
             async: false,
-            url: base + "/member/haveMsg",
+            url: "/member/haveMsg",
             dataType: "json",
             success: function (result) {
                 if (result.data == "0") {
 
                 } else {
-                    var pop = new Pop("${loginUser.name}您好",
-                            base + "/member/message",
+                    var pop = new Pop("您好",
+                            "/member/message",
                             "您有新消息,请点击私信查阅");
                 }
             },
