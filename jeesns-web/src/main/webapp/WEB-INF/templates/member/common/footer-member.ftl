@@ -124,8 +124,6 @@
             console.log(name)
             msg = msg.substring(1, msg.length) + msg.substring(0, 1);
             document.title = name + msg;
-        }else{
-            document.title = '${SITE_NAME} - Powered By cubc-luntan';
         }
     }
     setInterval(function () {
@@ -140,12 +138,11 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.data == "0") {
-                        window.clearInterval(titAn());
-                        document.title = '${SITE_NAME} - Powered By cubc-luntan';//窗口没有消息的时候默认的title内容
+
                     } else {
                         setInterval(function () {
                             titAn()
-                        }, 500);
+                        }, 999);
                     }
                 },
                 error: function () {

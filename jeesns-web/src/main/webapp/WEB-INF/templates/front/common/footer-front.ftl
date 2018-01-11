@@ -116,6 +116,7 @@
     var msg = "您好,您有新消息,请及时查阅...."
     var titAn = function () {
         var isHidden = document.hidden;
+        console.log("titAn:"+isHidden)
         if (isHidden) {
             var name = "温馨提示:"
             console.log(name)
@@ -126,7 +127,7 @@
     setInterval(function () {
         //当窗口效果为最小化，或者没焦点状态下才闪动
         var isHidden = document.hidden;
-        console.log(isHidden)
+        console.log("定时:"+isHidden)
         if (isHidden) {
             $.ajax({
                 type: "GET",
@@ -134,12 +135,12 @@
                 url: "/member/haveMsg",
                 dataType: "json",
                 success: function (result) {
-                    console.log("result.data ==0"+(result.data == "0"))
                     if (result.data == "0") {
+
                     } else {
                         setInterval(function () {
                             titAn()
-                        }, 1000);
+                        }, 999);
                     }
                 },
                 error: function () {
@@ -148,8 +149,6 @@
             });
         }
         else {
-//            window.clearInterval(titAn)
-            window.clearTimeout(titAn)
             console.log("获取焦点")
             document.title = '${SITE_NAME} - Powered By cubc-luntan';//窗口没有消息的时候默认的title内容
         }

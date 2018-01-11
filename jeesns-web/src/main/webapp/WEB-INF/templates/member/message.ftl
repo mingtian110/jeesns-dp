@@ -104,25 +104,25 @@
 <#--</div>-->
 <#include "/member/common/footerForMessage.ftl"/>
 <script type="text/javascript">
-//    setInterval(function () {
-//        $.ajax({
-//            type: "GET",
-//            async: false,
-//            url: base + "/member/haveMsg",
-//            dataType:"json",
-//            success: function (result) {
-//                if (result.data=="0") {
-//
-//                } else {
-//                    var pop = new Pop("您好",
-//                            base + "/member/message",
-//                            "您有新消息,请点击私信查阅");
-//                }
-//            },
-//            error: function () {
-//            }
-//        });
-//    }, 3000);
+    //    setInterval(function () {
+    //        $.ajax({
+    //            type: "GET",
+    //            async: false,
+    //            url: base + "/member/haveMsg",
+    //            dataType:"json",
+    //            success: function (result) {
+    //                if (result.data=="0") {
+    //
+    //                } else {
+    //                    var pop = new Pop("您好",
+    //                            base + "/member/message",
+    //                            "您有新消息,请点击私信查阅");
+    //                }
+    //            },
+    //            error: function () {
+    //            }
+    //        });
+    //    }, 3000);
     function bbimg(o) {
         var zoom = parseInt(o.style.zoom, 10) || 100;
         zoom += event.wheelDelta / 12;
@@ -223,49 +223,46 @@
             $("iframe").contents().find("p").html("");
         }
     }
-var msg = "您好,您有新消息,请及时查阅...."
-var titAn = function () {
-    var isHidden = document.hidden;
-    if (isHidden) {
-        var name = "${loginUser.name}"
-        console.log(name)
-        if (name == "") {
-
-        } else {
+    var msg = "您好,您有新消息,请及时查阅...."
+    var titAn = function () {
+        var isHidden = document.hidden;
+        console.log("titAn:"+isHidden)
+        if (isHidden) {
+            var name = "温馨提示:"
+            console.log(name)
             msg = msg.substring(1, msg.length) + msg.substring(0, 1);
-            document.title =name+msg;
+            document.title = name + msg;
         }
     }
-};
-setInterval(function () {
-    //当窗口效果为最小化，或者没焦点状态下才闪动
-    var isHidden = document.hidden;
-    console.log(isHidden)
-    if (isHidden) {
-        $.ajax({
-            type: "GET",
-            async: false,
-            url: "/member/haveMsg",
-            dataType: "json",
-            success: function (result) {
-                if (result.data == "0") {
-
-                } else {
-                    setInterval(function () {
-                        titAn()
-                    }, 999);
+    setInterval(function () {
+        //当窗口效果为最小化，或者没焦点状态下才闪动
+        var isHidden = document.hidden;
+        console.log("定时:"+isHidden)
+        if (isHidden) {
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: "/member/haveMsg",
+                dataType: "json",
+                success: function (result) {
+                    if (result.data == "0") {
+                    } else {
+                        setInterval(function () {
+                            titAn()
+                        }, 1000);
+                    }
+                },
+                error: function () {
+                    return
                 }
-            },
-            error: function () {
-                return
-            }
-        });
-    }
-    else {
-        console.log("获取焦点")
-        document.title = '${SITE_NAME} - Powered By cubc-luntan';//窗口没有消息的时候默认的title内容
-    }
-}, 1000);
+            });
+        }
+        else {
+            window.clearTimeout(titAn)
+            console.log("获取焦点")
+            document.title = '${SITE_NAME} - Powered By cubc-luntan';//窗口没有消息的时候默认的title内容
+        }
+    }, 1000);
 </script>
 </body>
 </html>
