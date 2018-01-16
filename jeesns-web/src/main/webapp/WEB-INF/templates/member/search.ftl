@@ -40,9 +40,9 @@
                                 <div class="col-md-4 float-left">
                                     <form action="/member/searchByName" method="get">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="key">
+                                            <input type="text" class="form-control" name="key" value="${key}">
                                             <span class="input-group-btn">
-                                                        <button class="btn btn-success" type="submit"><i class="icon-search"></i></button>
+                                                        <button class="btn btn-success" type="submit"><i class="icon-search" ></i></button>
                                                     </span>
                                         </div>
                                     </form>
