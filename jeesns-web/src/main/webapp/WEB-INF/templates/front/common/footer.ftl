@@ -105,8 +105,6 @@
                         <p id="popMore"><a href="http://yanue.info/" target="_blank">查看 »</a></p>
                     </div>
                 </div>
-                <!--右下角pop弹窗 end-->
-                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             </div>
         </div>
     </div>
@@ -139,7 +137,7 @@
                     } else {
                         setInterval(function () {
                             titAn()
-                        }, 1000);
+                        }, 1000000);
                     }
                 },
                 error: function () {
@@ -153,25 +151,25 @@
             console.log("获取焦点")
             document.title = '${SITE_NAME} - Powered By cubc-luntan';//窗口没有消息的时候默认的title内容
         }
-    }, 1000);
-    setInterval(function () {
-        $.ajax({
-            type: "GET",
-            async: false,
-            url: "/member/haveMsg",
-            dataType: "json",
-            success: function (result) {
-                if (result.data == "0") {
-
-                } else {
-                    var pop = new Pop("您好",
-                            "/member/message",
-                            "您有新消息,请点击私信查阅");
-                }
-            },
-            error: function () {
-                return
-            }
-        });
-    }, 3000);
+    }, 10000000);
+//    setInterval(function () {
+//        $.ajax({
+//            type: "GET",
+//            async: false,
+//            url: "/member/haveMsg",
+//            dataType: "json",
+//            success: function (result) {
+//                if (result.data == "0") {
+//
+//                } else {
+//                    var pop = new Pop("您好",
+//                            "/member/message",
+//                            "您有新消息,请点击私信查阅");
+//                }
+//            },
+//            error: function () {
+//                return
+//            }
+//        });
+//    }, 3000);
 </script>

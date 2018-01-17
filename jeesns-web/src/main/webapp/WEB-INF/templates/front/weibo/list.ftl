@@ -201,8 +201,9 @@
 </div>
 <#include "/${frontTemplate}/common/footer.ftl"/>
 <script type="text/javascript">
-//    $("#gc").addClass("active")
-//    $("#gca").css("border-radius","25px")
+    $("#gc").addClass("active")
+    $("i").removeClass("main-text-color")
+    $("#gca").css("border-radius","25px")
     $("#gca").css("color","#fff")
     $(function () {
         $(".pagination").jeesns_page("jeesnsPageForm");

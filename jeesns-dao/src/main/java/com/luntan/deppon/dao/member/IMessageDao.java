@@ -54,4 +54,21 @@ public interface IMessageDao extends IBaseDao<Message> {
      * @return
      */
     Integer setRead(@Param("fromMemberId") Integer fromMemberId, @Param("toMemberId") Integer toMemberId);
+
+    /**
+     * 系统信息
+     * @param page
+     * @param toMemberId
+     * @param basePath
+     * @return
+     */
+    List<Message> systemMessage(@Param("page") Page page, @Param("toMemberId") Integer toMemberId,@Param("basePath") String basePath);
+
+    /**
+     * 查询系统未读信息数量
+     * @param memberId
+     * @return
+     */
+    int countSystemUnreadNum(@Param("memberId") Integer memberId);
+
 }

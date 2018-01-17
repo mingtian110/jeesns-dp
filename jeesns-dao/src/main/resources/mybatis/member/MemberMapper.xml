@@ -77,7 +77,7 @@
         a.status,a.is_admin,a.sex,a.address,a.introduce,a.wechat,a.avatar,a.dept_name,a.dept_code,a.code,a.positions from tbl_member a
         <where>
             <if test="key != null and key != ''">
-                and (a.name LIKE #{key} or a.dept_name like #{key} or positions like #{key} )
+                and (a.name LIKE #{key} or a.dept_name like #{key} or positions like #{key} or is_admin=#{key})
             </if>
         </where>
         order by a.id DESC

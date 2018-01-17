@@ -42,8 +42,9 @@
                                         <div class="input-group">
                                             <input type="text" class="form-control" name="key" value="${key}">
                                             <span class="input-group-btn">
-                                                        <button class="btn btn-success" type="submit"><i class="icon-search" ></i></button>
-                                                    </span>
+                                                  <button class="btn btn-success" type="submit"><i class="icon-search" ></i></button>
+                                            </span>
+
                                         </div>
                                     </form>
                                 </div>
@@ -110,8 +111,9 @@
 </div>
 <#include "/${frontTemplate}/common/footer.ftl"/>
 <script type="text/javascript">
-//    $("#zr").addClass("active")
-//    $("#zra").css("border-radius","25px")
+    $("#zr").addClass("active")
+    $("i").removeClass("main-text-color")
+    $("#zra").css("border-radius","25px")
     $("#zra").css("color","#fff")
     $(function () {
         $(".pagination").jeesns_page("jeesnsPageForm");

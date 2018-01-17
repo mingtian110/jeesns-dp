@@ -17,7 +17,7 @@
                 <li id="qz"><a id="qza" href="${basePath}/group/" style="font-size: medium"><i class="icon-stack  main-text-color" style="vertical-align: middle"></i>&nbsp;${GROUP_ALIAS}</a></li>
                 <li id="dt"><a id="dta" href="${basePath}/action/list" style="font-size: medium"><i class="icon-plane main-text-color" style="vertical-align: middle"></i>&nbsp;动态</a></li>
                 <li id="tz"><a id="tza" href="${basePath}/group/topicList" style="font-size: medium"><i class="icon-tags  main-text-color" style="vertical-align: middle"></i>&nbsp;帖子</a></li>
-                <li id="sx"><a id="sxa" href="${basePath}/member/message" style="font-size: medium"><i class="icon-envelope main-text-color" style="vertical-align: middle"></i>&nbsp;私信</a></li>
+                <li id="sx"><a id="sxa" href="${basePath}/member/message" style="font-size: medium"><i class="icon-envelope main-text-color" style="vertical-align: middle"></i>&nbsp;私信 &nbsp;<#if unReadMessageNum &gt; 0><i class="fa icon-comments"></i></#if>
                 <li id="zr"><a id="zra" href="${basePath}/member/search" style="font-size: medium"><i class="icon-search main-text-color" style="vertical-align: middle"></i>&nbsp;找人</a></li>
             </ul>
             <ul class="nav navbar-top-links navbar-right">

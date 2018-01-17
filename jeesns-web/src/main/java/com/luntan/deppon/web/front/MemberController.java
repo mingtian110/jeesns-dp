@@ -713,6 +713,7 @@ public class MemberController extends BaseController {
         Page page = new Page(request);
         ResponseModel responseModel = memberService.listByPage(page,key);
         model.addAttribute("model",responseModel);
+        model.addAttribute("adminmodel",responseModel);
         model.addAttribute("key",key);
         return MEMBER_FTL_PATH + "search";
     }

@@ -95,8 +95,9 @@
 
 <#include "/${frontTemplate}/common/footer.ftl"/>
     <script type="text/javascript">
-//        $("#qz").addClass("active")
-//        $("#qza").css("border-radius","25px")
+        $("#qz").addClass("active")
+        $("i").removeClass("main-text-color")
+        $("#qza").css("border-radius","25px")
         $("#qza").css("color","#fff")
         $(function () {
             $(".pagination").jeesns_page("jeesnsPageForm");

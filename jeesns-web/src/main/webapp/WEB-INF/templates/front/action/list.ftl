@@ -77,8 +77,9 @@
 </div>
 <#include "/${frontTemplate}/common/footer.ftl"/>
 <script type="text/javascript">
-//    $("#dt").addClass("active")
-//    $("#dta").css("border-radius","25px")
+    $("#dt").addClass("active")
+    $("i").removeClass("main-text-color")
+    $("#dta").css("border-radius","25px")
     $("#dta").css("color","#fff")
     $(function () {
         $(".pagination").jeesns_page("jeesnsPageForm");

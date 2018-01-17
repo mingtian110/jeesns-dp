@@ -130,7 +130,7 @@
         return false;
     }
     $(".navbar").css("padding-top", "0px")
-    $("#sxa").css("color", "#fff")
+
     var E = window.wangEditor;
     var editor = new E('#div1', '#div2');
     // 为当前的editor配置密钥
@@ -263,6 +263,10 @@
             document.title = '${SITE_NAME} - Powered By cubc-luntan';//窗口没有消息的时候默认的title内容
         }
     }, 1000);
+//        $("#sx").addClass("active")
+//    $("i").removeClass("main-text-color")
+//    $("#sxa").css("border-radius","25px")
+//    $("#sxa").css("color","#fff")
 </script>
 </body>
 </html>
