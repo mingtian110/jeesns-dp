@@ -51,6 +51,7 @@
                         <p>工号:${member.code}</p>
                         <p>部门:${member.deptName}</p>
                         <p>部门编码:${member.deptCode}</p>
+                        <p><i class="icon-spin icon-star main-text-color"></i>签名:${member.introduce}</p>
                         <p class="operator">
                             <a class="label label-primary member-follows" member-id="${member.id}">
                                 <i class="fa fa-heart-o"></i> 关注

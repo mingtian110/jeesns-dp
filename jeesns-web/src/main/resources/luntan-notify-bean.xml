@@ -1,0 +1,25 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+
+    <!--消息消费者-->
+
+    <!--<bean id="luntanNoticeMsgConsumerManager" class="com.pamirs.mq.client.MqConsumerConcurrentlyManager" init-method="init">-->
+        <!--<property name="nameServer" value="${pingan.mq.deppon.namesrv}"></property>-->
+        <!--<property name="consumerGroup" value="CUBC_LUNTAN_MSG_CONSUMER_GROUP"></property>-->
+        <!--<property name="topic" value="CUBC_LUNTAN_MSG_TOPIC"></property>-->
+        <!--<property name="tags" value="CUBC_LUNTAN_MSG_TAG"></property>-->
+        <!--<property name="mqConsumer" ref="luntanNoticeMsgConsumer"></property>-->
+    <!--</bean>-->
+
+
+    <!-- 消息生产者   ${app.mq.namesrv}-->
+    <bean id="luntanNoticeMsgProducerManager" class="com.pamirs.mq.client.MqProducerOrderlyManager" init-method="init">
+        <property name="nameServer" value="47.97.172.234:9876"></property>
+        <property name="producerGroup" value="CUBC_LUNTAN_MSG_PRODUCER_GROUP"></property>
+        <property name="messageQueueSelector" ref="luntanNoticeMessageQueueSelector"/>
+    </bean>
+
+    <!--队列选择器-->
+    <bean id="luntanNoticeMessageQueueSelector" class="com.luntan.deppon.mq.LuntanNoticeMessageQueueSelector"/>
+
+</beans>

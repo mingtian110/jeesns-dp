@@ -14,11 +14,11 @@
     <name>jeesns-service</name>
 
     <dependencies>
-        <dependency>
-            <groupId>com.deppon.cubc.bill</groupId>
-            <artifactId>bill-client</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.deppon.cubc.bill</groupId>-->
+            <!--<artifactId>bill-client</artifactId>-->
+            <!--<version>1.0.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.luntan.deppon</groupId>
             <artifactId>jeesns-common</artifactId>
@@ -33,6 +33,11 @@
             <groupId>com.luntan.deppon</groupId>
             <artifactId>jeesns-dao</artifactId>
             <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pamirs.mq</groupId>
+            <artifactId>pamirs-mq-client</artifactId>
+            <version>1.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

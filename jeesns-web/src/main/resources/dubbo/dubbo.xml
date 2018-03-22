@@ -6,9 +6,10 @@
 	<description>
 		存放Spring Dubbo相关配置
 	</description>
-	<dubbo:application name="cubc-pingan" owner="cubc-pingan" />
-	<dubbo:registry protocol="zookeeper" address="${cubcpingan.dubbo.registry.address}" file="/opt/dubbo-cache/pingan.cache"/>
-	<dubbo:protocol name="dubbo" port="${cubcpingan.dubbo.protocol.port}"/>
+	<dubbo:application name="app" owner="app" />
+	<!--file="/opt/dubbo-cache/pingan.cache"  ${app.dubbo.registry.address}-->
+	<dubbo:registry protocol="zookeeper" address="47.97.172.234:2181" />
+	<dubbo:protocol name="dubbo" port="17909"/>
 	<dubbo:consumer timeout="5000" check="false"/>
 	<dubbo:provider timeout="5000" delay="-1" retries="0"/>
 	<import resource="dubbo-provider.xml"/>

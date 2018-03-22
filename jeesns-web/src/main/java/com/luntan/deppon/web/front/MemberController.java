@@ -1,9 +1,8 @@
 package com.luntan.deppon.web.front;
 
 import com.alibaba.fastjson.JSONObject;
-import com.deppon.cubc.commons.util.MD5Util;
-import com.deppon.cubc.schedule.common.Result;
-import com.deppon.dpap.module.zookeeper.server.service.impl.ZooKeeperConfig;
+import com.example.app.common.entity.Result;
+import com.example.app.common.util.MD5Util;
 import com.luntan.deppon.common.utils.ActionUtil;
 import com.luntan.deppon.common.utils.MemberUtil;
 import com.luntan.deppon.common.utils.ScoreRuleConsts;
@@ -17,6 +16,7 @@ import com.luntan.deppon.core.annotation.Before;
 import com.luntan.deppon.core.dto.ResponseModel;
 import com.luntan.deppon.core.model.Page;
 import com.luntan.deppon.model.member.TmpContact;
+import com.luntan.deppon.service.member.IMemberNoticeService;
 import com.luntan.deppon.service.member.IMemberService;
 import com.luntan.deppon.service.member.IMessageService;
 import com.luntan.deppon.service.member.IScoreDetailService;
@@ -239,7 +239,7 @@ public class MemberController extends BaseController {
     static String url="";
     static {
         try {
-            url=ZooKeeperConfig.getInstance().getConfigInfo("cubcweb.jeesns.url");
+            url="";//ZooKeeperConfig.getInstance().getConfigInfo("cubcweb.jeesns.url");
         }catch (Exception e){
             url="http://cubc.deppon.com";
         }
@@ -338,6 +338,8 @@ public class MemberController extends BaseController {
     }
 
 
+    @Resource
+    private IMemberNoticeService memberNoticeService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     @Before(UserLoginInterceptor.class)
     public String index(Model model){
@@ -346,6 +348,8 @@ public class MemberController extends BaseController {
         Page page = new Page(request);
         ResponseModel<ActionLog> list = actionLogService.memberActionLog(page,loginMemberId);
         model.addAttribute("actionLogModel",list);
+        Integer unReadNoticeNum = memberNoticeService.countNotice(loginMemberId);
+        request.setAttribute("unReadNoticeNum", unReadNoticeNum);
 //        int unReadMessageNum = messageService.countUnreadNum(loginMember.getId());
 //        request.setAttribute("unReadMessageNum", unReadMessageNum);
 //        model.addAttribute("unReadMessageNum",unReadMessageNum);
@@ -536,7 +540,6 @@ public class MemberController extends BaseController {
     }
     /**
      * 删除聊天记录
-     * @param memberId
      * @return
      */
     @RequestMapping(value = "/messageRecords/delete/{messageId}",method = RequestMethod.GET)
@@ -638,6 +641,12 @@ public class MemberController extends BaseController {
         }
         if((loginMember.getId()+"").equals(memberId+"")){
             return new ResponseModel(-1,"不能给自己发短信");
+        }
+        if(org.apache.commons.lang3.StringUtils.isBlank(findMember.getPhone())){
+            return new ResponseModel(0, "对方手机号为空");
+        }
+        if(org.apache.commons.lang3.StringUtils.isBlank(loginMember.getPhone())){
+            return new ResponseModel(0, "你的手机号为空");
         }
         //当天发送量
         HashMap<String,Integer> msgCount = (HashMap<String,Integer> )request.getSession().getAttribute("msgCount");

@@ -11,9 +11,11 @@ $(document).ready(function () {
     // wangSend[0].onkeydown = keydownpassword;
     listContactMembers();
     $(".sendMessage").on("click", function () {
+        var o=$("a.message-user-name:first");
         if(memberid == -1){
-            jeesnsDialog.errorTips("请先选择发送的对象");
-            return;
+            o.click();
+            // jeesnsDialog.errorTips("请先选择发送的对象");
+            // return;
         }
         var content =$("#content").val();
         if (content == "") {

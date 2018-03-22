@@ -34,7 +34,7 @@
     </context:component-scan>
     <!-- Dubbo -->
     <import resource="classpath:dubbo/dubbo.xml"/>
-    <import resource="classpath*:com/deppon/**/server/META-INF/spring.xml"/>
+    <import resource="classpath:luntan-notify-bean.xml"/>
     <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
@@ -141,5 +141,5 @@
     </bean>
     <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"></bean>
 
-    <bean id="springUtils" class="com.deppon.cubc.commons.util.SpringBeanUtils"/>
+    <!--<bean id="springUtils" class="com.deppon.cubc.commons.util.SpringBeanUtils"/>-->
 </beans>

@@ -100,6 +100,13 @@
                                         </div>
                                     </div>
                                 </a>
+                                <a href="${basePath}/u/${member.id}/home/notice">
+                                    <div class="feed-element">
+                                        <div class="media-body">
+                                            通知 <#if unReadNoticeNum &gt; 0><i class="fa icon-bell" style="color: red;"></i>${unReadNoticeNum}</#if>
+                                        </div>
+                                    </div>
+                                </a>
                                 <a href="${basePath}/u/${member.id}/home/follows">
                                     <div class="feed-element">
                                         <div class="media-body">
@@ -152,6 +159,8 @@
                                         群贴
                                     <#elseif type=="fans">
                                         粉丝
+                                    <#elseif type=="notice">
+                                        通知
                                     <#elseif type=="follows">
                                         关注
                                     <#elseif type=="group">
@@ -346,6 +355,24 @@
                                     <div class="box-footer clearfix">
                                         <ul class="pagination pagination-sm no-margin pull-right"
                                             url="${basePath}/u/${member.id}/home/fans"
+                                            currentPage="${model.page.pageNo}"
+                                            pageCount="${model.page.totalPage}">
+                                        </ul>
+                                    </div>
+                                <#elseif type=="notice">
+                                    <#list model.data as notice>
+                                        <div class="feed-element">
+                                            <#if notice.isRead=="N">
+                                                未读
+                                            <#elseif notice.isRead=="Y">
+                                                已读
+                                                </#if>
+                                            <a href="${basePath}/${notice.url}/${notice.id}">${notice.operationType}</a>
+                                        </div>
+                                    </#list>
+                                    <div class="box-footer clearfix">
+                                        <ul class="pagination pagination-sm no-margin pull-right"
+                                            url="${basePath}/u/${member.id}/home/notice"
                                             currentPage="${model.page.pageNo}"
                                             pageCount="${model.page.totalPage}">
                                         </ul>

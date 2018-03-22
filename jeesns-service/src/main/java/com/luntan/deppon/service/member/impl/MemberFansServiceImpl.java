@@ -1,8 +1,12 @@
 package com.luntan.deppon.service.member.impl;
 
+import com.luntan.deppon.common.utils.IdGenerator;
+import com.luntan.deppon.common.utils.SequenceManager;
 import com.luntan.deppon.core.dto.ResponseModel;
 import com.luntan.deppon.core.model.Page;
+import com.luntan.deppon.dao.common.INoticeDao;
 import com.luntan.deppon.dao.member.IMemberFansDao;
+import com.luntan.deppon.model.common.Notice;
 import com.luntan.deppon.model.member.MemberFans;
 import com.luntan.deppon.service.member.IMemberFansService;
 import org.springframework.stereotype.Service;
@@ -17,7 +21,8 @@ import java.util.List;
 public class MemberFansServiceImpl implements IMemberFansService {
     @Resource
     private IMemberFansDao memberFansDao;
-
+    @Resource
+    private INoticeDao noticeDao;
     @Override
     public MemberFans find(Integer whoFollowId, Integer followWhoId) {
         return memberFansDao.find(whoFollowId,followWhoId);
@@ -61,6 +66,16 @@ public class MemberFansServiceImpl implements IMemberFansService {
     @Override
     public ResponseModel fansList(Page page, Integer followWhoId) {
         List<MemberFans> list = memberFansDao.fansList(page, followWhoId);
+        ResponseModel model = new ResponseModel(0,page);
+        model.setData(list);
+        return model;
+    }
+
+
+    @Override
+    public ResponseModel noticeList(Page page, Integer followWhoId) {
+        String toId = SequenceManager.returnToId(followWhoId);
+        List<Notice> list = noticeDao.listByPage(page, toId);
         ResponseModel model = new ResponseModel(0,page);
         model.setData(list);
         return model;

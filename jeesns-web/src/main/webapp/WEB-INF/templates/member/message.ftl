@@ -181,13 +181,20 @@
     function keydownpassword(e) {
         e = e ? e : window.event;
         var keyCode = e.which ? e.which : e.keyCode;
-        // console.log(keyCode);
+        var content = $("#content").val();
         if (keyCode == 13) {
             if (memberid == -1) {
-                jeesnsDialog.errorTips("请先选择发送的对象");
-                return;
+                var o=$("a.message-user-name:first");
+                if(o==undefined){
+                    jeesnsDialog.errorTips("请先选择发送的对象");
+                    $("#content").val(content)
+                    return;
+                }
+                o.click();
+//                jeesnsDialog.errorTips("请先选择发送的对象");
+//                return;
             }
-            var content = $("#content").val();
+
             if (content == "") {
                 jeesnsDialog.errorTips("请输入私信内容");
                 return;
@@ -249,7 +256,7 @@
                     } else {
                         setInterval(function () {
                             titAn()
-                        }, 1000);
+                        }, 100000000);
                     }
                 },
                 error: function () {
@@ -262,7 +269,7 @@
             console.log("获取焦点")
             document.title = '${SITE_NAME} - Powered By cubc-luntan';//窗口没有消息的时候默认的title内容
         }
-    }, 1000);
+    }, 1000000000);
 //        $("#sx").addClass("active")
 //    $("i").removeClass("main-text-color")
 //    $("#sxa").css("border-radius","25px")

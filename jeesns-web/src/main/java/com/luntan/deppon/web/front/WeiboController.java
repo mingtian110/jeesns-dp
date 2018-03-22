@@ -6,6 +6,7 @@ import com.luntan.deppon.core.model.Page;
 import com.luntan.deppon.core.utils.Const;
 import com.luntan.deppon.core.utils.ErrorUtil;
 import com.luntan.deppon.core.utils.JeesnsConfig;
+import com.luntan.deppon.dao.common.INoticeDao;
 import com.luntan.deppon.dao.member.IMemberFansDao;
 import com.luntan.deppon.model.member.MemberFans;
 import com.luntan.deppon.service.weibo.IWeiboCommentService;
@@ -36,6 +37,8 @@ public class WeiboController extends BaseController {
     private JeesnsConfig jeesnsConfig;
     @Resource
     private IMemberFansDao memberFansDao;
+    @Resource
+    private INoticeDao noticeDao;
 
     @RequestMapping(value = "/publish",method = RequestMethod.POST)
     @ResponseBody
@@ -92,6 +95,22 @@ public class WeiboController extends BaseController {
             model.addAttribute("msg", WeiboCommentServiceImpl.weiboAlias+"不存在");
             return jeesnsConfig.getFrontTemplate() + Const.INDEX_ERROR_FTL_PATH;
         }
+
+        model.addAttribute("weibo",weibo);
+        model.addAttribute("loginUser", loginMember);
+        return jeesnsConfig.getFrontTemplate() + "/weibo/detail";
+    }
+    @RequestMapping(value = "/detail/{weiboId}/{id}",method = RequestMethod.GET)
+    public String detailread(@PathVariable("weiboId") Integer weiboId,@PathVariable("id") Long id, Model model){
+        int update = noticeDao.update(id);
+        Member loginMember = MemberUtil.getLoginMember(request);
+        int loginMemberId = loginMember == null ? 0 : loginMember.getId();
+        Weibo weibo = weiboService.findById(weiboId,loginMemberId);
+        if(weibo == null){
+            model.addAttribute("msg", WeiboCommentServiceImpl.weiboAlias+"不存在");
+            return jeesnsConfig.getFrontTemplate() + Const.INDEX_ERROR_FTL_PATH;
+        }
+
         model.addAttribute("weibo",weibo);
         model.addAttribute("loginUser", loginMember);
         return jeesnsConfig.getFrontTemplate() + "/weibo/detail";

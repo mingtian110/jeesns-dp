@@ -7,11 +7,13 @@ import com.luntan.deppon.core.annotation.Before;
 import com.luntan.deppon.core.annotation.Clear;
 import com.luntan.deppon.core.utils.SpringContextHolder;
 import com.luntan.deppon.model.member.Member;
+import com.luntan.deppon.service.member.IMemberNoticeService;
 import com.luntan.deppon.service.member.IMessageService;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
@@ -25,13 +27,17 @@ import java.util.List;
  */
 public class InitInterceptor implements HandlerInterceptor {
 
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         IMessageService messageService = SpringContextHolder.getBean("messageService");
+        IMemberNoticeService memberNoticeService = SpringContextHolder.getBean("memberNoticeService");
         Member loginUser = MemberUtil.getLoginMember(request);
         request.setAttribute("loginUser", loginUser);
         //会员未读私信数量
         Integer unReadMessageNum = 0;
+        Integer unReadNoticeNum= 0;
+        request.setAttribute("unReadNoticeNum", unReadNoticeNum);
         if (loginUser != null) {
             if (loginUser.getIsActive() == 0) {
                 String memberEmailValid = (String) request.getServletContext().getAttribute(ConfigUtil.MEMBER_EMAIL_VALID.toUpperCase());
@@ -44,9 +50,11 @@ public class InitInterceptor implements HandlerInterceptor {
                     }
                 }
             }
+            unReadNoticeNum = memberNoticeService.countNotice(loginUser.getId());
             unReadMessageNum = messageService.countUnreadNum(loginUser.getId());
         }
         request.setAttribute("unReadMessageNum", unReadMessageNum);
+        request.setAttribute("unReadNoticeNum", unReadNoticeNum);
 
         if (handler != null) {
             List<Annotation> annotationList = new ArrayList<>();

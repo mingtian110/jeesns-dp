@@ -89,6 +89,7 @@
                     <div class="col-sm-2">
                         <div class="float-e-margins">
                             <div class="feed-activity-list">
+
                                 <a href="${basePath}/member/message">
                                     <div class="feed-element">
                                         <div class="media-body">
@@ -107,6 +108,13 @@
                                     <div class="feed-element">
                                         <div class="media-body">
                                             粉丝
+                                        </div>
+                                    </div>
+                                </a>
+                                <a href="${basePath}/u/${loginUser.id}/home/notice">
+                                    <div class="feed-element">
+                                        <div class="media-body">
+                                            通知 <#if unReadNoticeNum &gt; 0><i class="fa icon-bell" style="color: red;"></i>${unReadNoticeNum}</#if>
                                         </div>
                                     </div>
                                 </a>

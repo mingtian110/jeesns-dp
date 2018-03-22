@@ -1,7 +1,6 @@
 package com.luntan.deppon.service.member.impl;
 
-import com.deppon.cubc.bill.client.api.MessageService;
-import com.deppon.cubc.commons.dao.Result;
+import com.example.app.common.entity.Result;
 import com.luntan.deppon.core.dto.ResponseModel;
 import com.luntan.deppon.core.model.Page;
 import com.luntan.deppon.dao.member.IMemberDao;
@@ -11,7 +10,6 @@ import com.luntan.deppon.model.member.Member;
 import com.luntan.deppon.model.member.Message;
 import com.luntan.deppon.model.member.TmpContact;
 import com.luntan.deppon.service.member.IMessageService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +27,8 @@ import java.util.List;
 public class MessageServiceImpl implements IMessageService {
     @Resource
     private IMessageDao messageDao;
-    @Resource
-    private MessageService billMessageService;
+//    @Resource
+//    private MessageService billMessageService;
     private final static Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 
 
@@ -178,14 +176,9 @@ public class MessageServiceImpl implements IMessageService {
      */
     @Override
     public ResponseModel sendMsg(Member loginMember, Member findMember){
-        String content="你好,我是"+loginMember.getName()+",我在cubc-luntan向你发了一条消息,烦请登录cubc,点击右上角登录论坛查看,我的手机号是:"+loginMember.getPhone()+",你也可以直接电话联系我\n";
-        if(StringUtils.isBlank(findMember.getPhone())){
-            return new ResponseModel(0, "对方手机号为空");
-        }
-        if(StringUtils.isBlank(loginMember.getPhone())){
-            return new ResponseModel(0, "你的手机号为空");
-        }
-        Result<String> stringResult = billMessageService.sendMessage(findMember.getPhone(), content);
+        String content="你好,"+findMember==null?"":findMember.getName()+",我是"+loginMember.getName()+",我在cubc-luntan向你发了一条消息,烦请登录cubc,点击右上角登录论坛查看,我的手机号是:"+loginMember.getPhone()+",你也可以直接电话联系我\n";
+        logger.error("发送短信:"+content);
+        Result<String> stringResult = null;//billMessageService.sendMessage(findMember.getPhone(), content);
         if(stringResult.isSuccess()) {
             return new ResponseModel(0, "短信已发送至:"+findMember.getPhone());
         }else {

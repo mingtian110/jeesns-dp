@@ -19,4 +19,6 @@ public interface IMemberFansService {
     ResponseModel fansList(Page page, Integer followWhoId);
 
     MemberFans find(Integer whoFollowId, Integer followWhoId);
+
+    ResponseModel noticeList(Page page, Integer followWhoId);
 }

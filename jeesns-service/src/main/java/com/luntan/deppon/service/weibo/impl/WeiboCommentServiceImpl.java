@@ -1,8 +1,12 @@
 package com.luntan.deppon.service.weibo.impl;
 
+import com.luntan.deppon.common.utils.SequenceManager;
 import com.luntan.deppon.core.dto.ResponseModel;
 import com.luntan.deppon.core.model.Page;
 import com.luntan.deppon.core.utils.StringUtils;
+import com.luntan.deppon.dao.common.INoticeDao;
+import com.luntan.deppon.model.common.MqConstants;
+import com.luntan.deppon.model.common.Notice;
 import com.luntan.deppon.service.system.IActionLogService;
 import com.luntan.deppon.service.weibo.IWeiboCommentService;
 import com.luntan.deppon.core.utils.*;
@@ -14,6 +18,7 @@ import com.luntan.deppon.dao.weibo.IWeiboCommentDao;
 import com.luntan.deppon.service.weibo.IWeiboService;
 import com.luntan.deppon.common.utils.ActionUtil;
 import com.luntan.deppon.common.utils.ScoreRuleConsts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,12 +32,18 @@ public class WeiboCommentServiceImpl implements IWeiboCommentService {
     @Resource
     private IWeiboCommentDao weiboCommentDao;
     @Resource
+    private INoticeDao noticeDao;
+    @Resource
+    private SequenceManager sequenceManager;
+    @Resource
     private IWeiboService weiboService;
     @Resource
     private IActionLogService actionLogService;
     @Resource
     private IScoreDetailService scoreDetailService;
     public static String weiboAlias="";
+//    @Autowired(required = false)
+//    private MqProducerOrderlyManager luntanNoticeMsgProducerManager;
 
     @Override
     public WeiboComment findById(int id) {
@@ -57,6 +68,27 @@ public class WeiboCommentServiceImpl implements IWeiboCommentService {
         weiboComment.setWeiboId(weiboId);
         weiboComment.setContent(content);
         weiboComment.setCommentId(weiboCommentId);
+
+        Notice notice=new Notice();
+        notice.setFromId(loginMember.getId());
+        Integer memberId = weibo.getMemberId();
+        String toId=SequenceManager.returnToId(memberId);
+        notice.setIsRead("N");
+        notice.setOperationType(MqConstants.WEIBO_COMMENT.getCname());
+        notice.setToId(toId);
+        notice.setUrl("weibo/detail/"+weibo.getId());
+        try {
+            notice.setId(sequenceManager.generateId(toId + ""));
+        }catch (Exception e){
+            System.out.println("");
+        }
+        noticeDao.save(notice);
+//        try {
+//            luntanNoticeMsgProducerManager.send(MqConstants.LUNTAN_MSG_TOPIC.getName(), MqConstants.LUNTAN_MSG_TAG.getName(), notice.getId()+"", notice, null);
+//        }catch (Throwable e){
+//            System.out.println(e.getMessage());
+//        }
+
         int result = weiboCommentDao.save(weiboComment);
         if(result == 1){
             //微博评论奖励
@@ -66,6 +98,8 @@ public class WeiboCommentServiceImpl implements IWeiboCommentService {
             return new ResponseModel(-1,"评论失败");
         }
     }
+
+
 
     @Override
     public ResponseModel listByWeibo(Page page, int weiboId) {

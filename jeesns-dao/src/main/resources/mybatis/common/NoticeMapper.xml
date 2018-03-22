@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luntan.deppon.dao.common.INoticeDao">
+    <resultMap id="NoticeResult" type="Notice">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="operation_type" jdbcType="VARCHAR" property="operationType" />
+      <result column="from_id" jdbcType="INTEGER" property="fromId" />
+      <result column="to_id" jdbcType="INTEGER" property="toId" />
+      <result column="url" jdbcType="VARCHAR" property="url" />
+      <result column="is_read" jdbcType="VARCHAR" property="isRead" />
+    </resultMap>
+  <insert id="save" parameterType="Notice">
+    insert into tbl_notice (id,operation_type,from_id,to_id,url,is_read)
+    values (#{id}, #{operationType}, #{fromId}, #{toId}, #{url}, #{isRead})
+  </insert>
+
+  <select id="listByPage" resultMap="NoticeResult" parameterType="Notice">
+    select *  FROM tbl_notice  where to_id=#{toId}
+  </select>
+
+  <select id="countUnread" resultType="java.lang.Integer" parameterType="Notice">
+    select count(1)  FROM tbl_notice  where to_id=#{toId} and is_read='N'
+  </select>
+  <update id="update" parameterType="Notice">
+    UPDATE tbl_notice SET is_read='Y' where id=#{id}
+  </update>
+</mapper>

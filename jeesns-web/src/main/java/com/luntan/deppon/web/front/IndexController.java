@@ -5,6 +5,7 @@ import com.luntan.deppon.service.common.IArchiveService;
 import com.luntan.deppon.service.common.ILinkService;
 import com.luntan.deppon.service.group.IGroupFansService;
 import com.luntan.deppon.service.member.IMemberFansService;
+import com.luntan.deppon.service.member.IMemberNoticeService;
 import com.luntan.deppon.service.member.IMemberService;
 import com.luntan.deppon.service.member.IMessageService;
 import com.luntan.deppon.service.system.IActionLogService;
@@ -55,6 +56,9 @@ public class IndexController extends BaseController {
     private IGroupFansService groupFansService;
     @Resource
     private IMemberFansService memberFansService;
+
+    @Resource
+    private IMemberNoticeService memberNoticeService;
     @Resource
     private ILinkService linkService;
 
@@ -95,8 +99,9 @@ public class IndexController extends BaseController {
         model.addAttribute("loginMember", loginMember);
         ResponseModel<ActionLog> list = actionLogService.memberActionLog(page,id);
         model.addAttribute("actionLogModel",list);
-//        int unReadMessageNum = messageService.countUnreadNum(loginMember.getId());
-//        request.setAttribute("unReadMessageNum", unReadMessageNum);
+        //        int unReadMessageNum = messageService.countUnreadNum(loginMember.getId());
+        //        request.setAttribute("unReadMessageNum", unReadMessageNum);
+
         return jeesnsConfig.getFrontTemplate() + "/u";
     }
 
@@ -127,6 +132,8 @@ public class IndexController extends BaseController {
             model.addAttribute("model", memberFansService.followsList(page,id));
         } else if("fans".equals(type)){
             model.addAttribute("model", memberFansService.fansList(page,id));
+        }else if("notice".equals(type)){
+            model.addAttribute("model", memberNoticeService.noticeList(page,id));
         }
         model.addAttribute("type",type);
         return jeesnsConfig.getFrontTemplate() + "/home";
